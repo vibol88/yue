@@ -1,362 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>សំណួរសម្រាប់អូន</title>
-    <!-- Tailwind CSS CDN for easy styling -->
+    <title>A Little Something For You</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter for general text, Dancing Script for a romantic touch -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Dancing+Script:wght@400;700&display=swap"
-        rel="stylesheet">
     <style>
-        /* Custom styles to override or extend Tailwind for a beautiful look */
+        /* Custom styles for the Inter font and smooth transitions */
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
-            /* Soft pink gradient */
+            font-family: "Inter", sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Ensure it takes full viewport height */
+            background: linear-gradient(to right top, #f0e6f6, #f8e1eb); /* Very soft purple to light rose */
             margin: 0;
-            padding: 20px;
-            /* Add padding for small screens */
-            box-sizing: border-box;
-            /* Include padding in element's total width and height */
-            color: #4a4a4a;
-            /* Dark gray text color */
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            overflow: hidden; /* Prevent scrollbars if content slightly overflows during transitions */
         }
-
-        /* Styles for the main container (formerly .yue) */
-        .main-card {
-            background-color: rgba(255, 255, 255, 0.95);
-            /* Slightly transparent white */
-            border-radius: 2rem;
-            /* More rounded corners */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            /* Take full width of parent */
-            max-width: 700px;
-            /* Max width for larger screens */
-            height: auto;
-            /* Height adjusts to content */
-            min-height: 450px;
-            /* Minimum height */
+            height: 100%;
+            background: linear-gradient(to right top, #e9d5ff, #fbcfe8); /* Match body background */
             display: flex;
-            flex-direction: column;
-            /* Stack content vertically */
             justify-content: center;
             align-items: center;
-            padding: 2.5rem;
-            /* Internal padding */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            /* Softer, deeper shadow */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* Smooth transition for card hover */
-            border: 3px solid #f8bbd0;
-            /* Soft pink border */
+            z-index: 100; /* Ensure it's on top */
+            transition: opacity 0.5s ease-out;
         }
-
-        .main-card:hover {
-            transform: translateY(-5px);
-            /* Slightly lift the card on hover */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            /* More pronounced shadow on hover */
-            border-color: #e91e63;
-            /* Deeper pink border on hover */
-        }
-
-        /* Styles for the inner content div */
-        .content-wrapper {
-            width: 100%;
-            max-width: 500px;
-            /* Max width for content inside the card */
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            /* Space between elements */
-            align-items: center;
-            /* Center items horizontally */
-        }
-
-        h3 {
-            font-family: 'Dancing Script', cursive;
-            /* Romantic font for heading */
-            color: #e91e63;
-            /* Deep pink color */
-            font-size: 2.5rem;
-            /* Larger font size */
-            font-weight: 700;
-            /* Bold text */
-            text-align: center;
-            margin-bottom: 25px;
-            /* Space below heading */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            /* Subtle text shadow */
-        }
-
-        /* Base button styles */
-        .base-button {
-            background: linear-gradient(45deg, #ff8a80 0%, #ff5252 100%);
-            /* Red-pink gradient */
-            border-radius: 9999px;
-            /* Fully rounded (pill shape) */
-            color: #ffffff;
-            /* White text */
-            width: 100%;
-            /* Full width of its container */
-            max-width: 500px;
-            /* Max width for buttons */
-            height: 55px;
-            /* Slightly taller buttons */
-            border: none;
-            /* No default border */
-            font-size: 1.35rem;
-            /* Slightly larger font size */
-            font-weight: 600;
-            /* Semi-bold text */
-            cursor: pointer;
-            transition: all 0.3s ease;
-            /* Smooth transition for all properties */
-            box-shadow: 0 5px 15px rgba(255, 82, 82, 0.4);
-            /* Soft shadow matching gradient */
-            padding: 0 1.5rem;
-            /* Horizontal padding */
-            display: flex;
-            /* Use flex to center text vertically */
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            /* Ensure text is centered */
-            letter-spacing: 0.05em;
-            /* Slight letter spacing */
-        }
-
-        .base-button:hover {
-            background: linear-gradient(45deg, #ff5252 0%, #ff8a80 100%);
-            /* Reverse gradient on hover */
-            transform: translateY(-3px) scale(1.02);
-            /* Lift and slightly enlarge */
-            box-shadow: 0 8px 20px rgba(255, 82, 82, 0.6);
-            /* More pronounced shadow on hover */
-            letter-spacing: 0.1em;
-            /* More letter spacing on hover */
-        }
-
-        /* Message box for custom alerts */
-        #message-box {
-            background-color: #fce4ec;
-            /* Light pink background */
-            color: #e91e63;
-            /* Deep pink text */
-            border: 2px solid #f8bbd0;
-            /* Soft pink border */
-            border-radius: 1rem;
-            /* Rounded corners */
-            padding: 1.2rem;
-            margin-top: 25px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
+        .password-overlay.hidden {
             opacity: 0;
-            /* Initially hidden */
-            visibility: hidden;
-            /* Initially hidden */
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-            /* Slower, smoother transition */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            pointer-events: none; /* Disable interactions when hidden */
         }
-
-        #message-box.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Navigation buttons container */
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
+        .card-container {
+            transition: all 0.6s ease-in-out;
+            transform-style: preserve-3d;
+            perspective: 1000px;
             width: 100%;
-            max-width: 500px;
-            margin-top: 20px;
-            gap: 10px;
-            /* Space between nav buttons */
+            max-width: 40rem; /* Max width for the card */
+            aspect-ratio: 4 / 5; /* Maintain a consistent card shape */
+            position: relative; /* Needed for absolute positioning of inner card */
+        }
+        .card-inner {
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* More bouncy/elastic feel */
+            transform-style: preserve-3d;
+            position: absolute; /* Make inner card absolute to fill container */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            border-radius: 1.5rem; /* rounded-3xl */
+            padding: 2.5rem; /* p-10 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            position: absolute; /* Both front and back are absolute within card-inner */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .card-front {
+            background-color: #ffffff; /* bg-white */
+            color: #4b5563; /* text-gray-600 */
+            z-index: 2; /* Ensure front is on top initially */
+        }
+        .card-back {
+            background: linear-gradient(to right top, #9333ea, #ec4899); /* Purple-700 to Pink-500 */
+            color: #ffffff; /* text-white */
+            transform: rotateY(180deg);
+            opacity: 0; /* Start hidden */
+            z-index: 1; /* Back is behind front initially */
+        }
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-container.flipped .card-back {
+            opacity: 1; /* Show when flipped */
+            z-index: 3; /* Bring back to front after flip */
+        }
+        .card-container.flipped .card-front {
+            opacity: 0; /* Hide front when flipped */
         }
 
-        .nav-button {
-            flex-grow: 1;
-            /* Allow buttons to grow and fill space */
-            background-color: #f06292;
-            /* Medium pink */
-            color: white;
-            padding: 12px 20px;
-            border-radius: 9999px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 3px 10px rgba(240, 98, 146, 0.4);
+        /* Animation for content on the back of the card */
+        .card-back h2,
+        .card-back p,
+        .card-back button {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: 0.3s;
+        }
+        .card-container.flipped .card-back h2,
+        .card-container.flipped .card-back p,
+        .card-container.flipped .card-back button {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .nav-button:hover {
-            background-color: #e91e63;
-            /* Deeper pink on hover */
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.6);
+        .shine-button {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .shine-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: skewX(-20deg);
+            transition: all 0.7s ease;
+            z-index: -1;
+        }
+        .shine-button:hover::before {
+            left: 125%;
+        }
+        /* Image container and styling to ensure it fits well */
+        .animated-image-zone {
+            position: relative;
+            width: 100%;
+            max-width: 18rem;
+            height: 12rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease-in-out;
+            z-index: 10;
+            /* Initial state for image animation */
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        .image-wrapper.show {
+            /* Final state for image animation */
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition-delay: 0.5s; /* Delay after password input is gone */
+        }
+        .image-wrapper:hover {
+            transform: scale(1.03);
+        }
+        #mainImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
         }
 
-        .nav-button:disabled {
-            background-color: #f8bbd0;
-            /* Lighter pink when disabled */
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
+        /* Floating elements styles and animations */
+        .floating-element {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
         }
 
-        .restart-button {
-            background-color: #64b5f6;
-            /* Light blue for restart */
-            margin-top: 20px;
-            max-width: 300px;
-            /* Make restart button a bit smaller */
-            box-shadow: 0 3px 10px rgba(100, 181, 246, 0.4);
+        /* Define specific positions and animations for each element */
+        .heart-1 {
+            top: 10%;
+            left: -10%;
+            animation: float-element-1 4s ease-in-out infinite alternate;
+            animation-delay: 0s;
+            color: #ec4899; /* Pink */
+        }
+        .star-1 {
+            top: 5%;
+            right: -10%;
+            animation: float-element-2 4.5s ease-in-out infinite alternate;
+            animation-delay: 0.5s;
+            color: #fcd34d; /* Yellow */
+        }
+        .heart-2 {
+            bottom: 10%;
+            left: -5%;
+            animation: float-element-3 3.8s ease-in-out infinite alternate;
+            animation-delay: 1s;
+            color: #a78bfa; /* Light purple */
+        }
+        .star-2 {
+            bottom: 5%;
+            right: -5%;
+            animation: float-element-4 4.2s ease-in-out infinite alternate;
+            animation-delay: 1.5s;
+            color: #9333ea; /* Darker purple */
         }
 
-        .restart-button:hover {
-            background-color: #2196f3;
-            /* Deeper blue on hover */
-            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.6);
+        /* Keyframes for floating animations */
+        @keyframes float-element-1 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+            20% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
+            80% { opacity: 1; transform: translate(-5px, 5px) scale(0.9); }
+            100% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+        }
+        @keyframes float-element-2 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.7); }
+            20% { opacity: 1; transform: translate(-10px, 10px) scale(1.2); }
+            80% { opacity: 1; transform: translate(5px, -5px) scale(0.8); }
+            100% { opacity: 0; transform: translate(0, 0) scale(0.7); }
+        }
+        @keyframes float-element-3 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.9); }
+            20% { opacity: 1; transform: translate(5px, -10px) scale(1.0); }
+            80% { opacity: 1; transform: translate(-10px, 10px) scale(1.1); }
+            100% { opacity: 0; transform: translate(0, 0) scale(0.9); }
+        }
+        @keyframes float-element-4 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+            20% { opacity: 1; transform: translate(-5px, -5px) scale(1.1); }
+            80% { opacity: 1; transform: translate(10px, 10px) scale(0.7); }
+            100% { opacity: 0; transform: translate(0, 0) scale(0.6); }
         }
     </style>
 </head>
-
 <body>
-    <div class="main-card">
-        <div class="content-wrapper">
-            <h3 id="main-heading" style="font-size: 30px;"></h3> <!-- Question will be inserted here by JS -->
-            <button onclick="handleAnswer('yes')" class="base-button">ចុចបើអូនចង់ដឹង</button>
-            <button onclick="handleAnswer('no')" class="base-button">ចុចបើចម្លើយបងផ្តល់អោយមិនពិត</button>
-            <div id="message-box"></div>
 
-            <div class="navigation-buttons">
-                <button id="prev-btn" onclick="showPreviousQuestion()" class="nav-button">សំណួរមុន</button>
-                <button id="next-btn" onclick="showNextQuestion()" class="nav-button">សំណួរបន្ទាប់</button>
+    <!-- Password Overlay -->
+    <div id="passwordOverlay" class="password-overlay">
+        <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm w-full">
+            <h2 class="text-2xl font-bold text-purple-800 mb-6">បញ្ចូលលេខសម្ងាត់</h2>
+            <input type="password" id="passwordInput" class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-center text-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="លេខសម្ងាត់">
+            <button id="enterButton" class="shine-button bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75">
+                ចូលមើល
+            </button>
+            <p id="errorMessage" class="text-red-500 mt-4 hidden">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
+        </div>
+    </div>
+
+    <div class="card-container mx-auto rounded-3xl shadow-xl p-6 md:p-10 bg-white">
+        <div class="card-inner">
+            <!-- Front of the card -->
+            <div class="card-front">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-purple-800 mb-4">Hey YuE</h1>
+
+                <!-- Date and Time Display -->
+                <div class="text-center text-gray-700 mb-6">
+                    <p id="currentDateTime" class="text-xl md:text-2xl font-semibold"></p>
+                </div>
+
+                <div class="animated-image-zone">
+                    <div class="image-wrapper" id="imageWrapper">
+                        <img id="mainImage" src="./img/love.jpg" alt="Placeholder Image" onerror="this.onerror=null;this.src='https://placehold.co/300x200/a78bfa/ffffff?text=Image+Not+Found';">
+                    </div>
+                    <!-- Floating elements -->
+                    <div class="floating-element heart-1">❤️</div>
+                    <div class="floating-element star-1">✨</div>
+                    <div class="floating-element heart-2">💖</div>
+                    <div class="floating-element star-2">🌟</div>
+                </div>
+                <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+                    Just wanted to send a little something your way to remind you how much you mean to me.
+                </p>
+                <button id="revealButton" class="shine-button bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75" aria-label="Click to reveal a surprise message">
+                    Flip for a Surprise!
+                </button>
             </div>
-            <button onclick="restartQuiz()" class="base-button restart-button">ចាប់ផ្តើមឡើងវិញ</button>
+
+            <!-- Back of the card (hidden message) -->
+            <div class="card-back">
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-4">My Princess❤️</h2>
+                <p class="text-xl md:text-2xl leading-relaxed mb-8">
+                    ជូនចំពោះព្រះនាងរបស់បង។បងដឹងថាបងមិនមែនជាមនុស្សប្រុសល្អអ្វីទេតែបងនឹងសន្យាថានឹងមើលថែអូន ស្រឡាញអូនអោយដូចពេជ្យទឹក១០។បងស្លាញ់អូន ពិន យូអី ❤️
+                </p>
+                <p class="text-lg mt-6 mb-8">
+                     ❤️B sl o❤️
+                </p>
+                <button id="backButton" class="shine-button bg-white text-purple-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75" aria-label="Click to go back to the front of the card">
+                    Go Back
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Array of questions and their answers
-        const questions = [
-            {
-                question: "អូនស្រលាញ់បងអត់?",
-                yesAnswer: "ឈប់ឆ្កួតទៅ អូនស្រលាញ់តែបងទេណា😊",
-                noAnswer: "បងដឹងថាអូនស្រលាញ់បងខ្លាំងណាស់! 💖"
-            },
-            {
-                question: "តើអូនចង់នៅក្បែរបងជារៀងរហូតទេ?",
-                yesAnswer: "ពិតណាស់! បងជាពិភពលោករបស់អូន។ 🌍",
-                noAnswer: "បងជាពិភពលោករបស់អូន! អូនមិនអាចរស់នៅដោយគ្មានបងបានទេ។"
-            },
-            {
-                question: "តើអូនគិតថាបងស្អាតទេ?",
-                yesAnswer: "បងស្អាតបំផុតក្នុងភ្នែកអូន! 😍",
-                noAnswer: "បងស្អាតជាងគេលើលោក! អូនមិនដែលឃើញអ្នកណាស្អាតដូចបងទេ។"
-            },
-            {
-                question: "តើអូនចង់ទៅដើរលេងជាមួយបងនៅថ្ងៃស្អែកទេ?",
-                yesAnswer: "ចង់ណាស់! អូនរង់ចាំមិនបានទេ។ ✨",
-                noAnswer: "ទោះមិនមែនថ្ងៃស្អែកក៏ដោយ ក៏អូនចង់ទៅជាមួយបងដែរ!"
-            },
-            {
-                question: "តើអូនជឿជាក់លើបងទេ?",
-                yesAnswer: "ជឿជាក់លើបង ១០០% ជានិច្ច! ❤️",
-                noAnswer: "បងជាមនុស្សតែម្នាក់គត់ដែលអូនទុកចិត្តបំផុត។"
-            },
-            {
-                question: "តើអូនសប្បាយចិត្តនៅពេលនៅក្បែរបងទេ?",
-                yesAnswer: "សប្បាយចិត្តបំផុត! បងធ្វើឱ្យអូនញញឹមជានិច្ច។ 😊",
-                noAnswer: "បងជាសុភមង្គលរបស់អូន! អូនមិនអាចសប្បាយចិត្តជាងនេះបានទេ។"
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordOverlay = document.getElementById('passwordOverlay');
+            const passwordInput = document.getElementById('passwordInput');
+            const enterButton = document.getElementById('enterButton');
+            const errorMessage = document.getElementById('errorMessage');
+            const imageWrapper = document.getElementById('imageWrapper'); // Get image wrapper for animation
+
+            const revealButton = document.getElementById('revealButton');
+            const backButton = document.getElementById('backButton');
+            const cardContainer = document.querySelector('.card-container');
+            const currentDateTimeElement = document.getElementById('currentDateTime');
+
+            const correctPassword = "180125"; // The password you requested
+
+            // Function to update date and time
+            function updateDateTime() {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+                currentDateTimeElement.textContent = now.toLocaleDateString('en-US', options); // Using en-US for standard format
             }
-        ];
 
-        let currentQuestionIndex = 0; // Keep track of the current question
-        const mainHeading = document.getElementById('main-heading');
-        const messageBox = document.getElementById('message-box');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+            // Initial call and set interval for updating time
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
 
-        // Function to display the current question
-        function displayQuestion() {
-            mainHeading.innerHTML = questions[currentQuestionIndex].question;
-            hideMessageBox(); // Hide message when new question is displayed
-            updateNavigationButtons();
-        }
+            // Password check logic
+            enterButton.addEventListener('click', () => {
+                if (passwordInput.value === correctPassword) {
+                    passwordOverlay.classList.add('hidden'); // Hide overlay
+                    imageWrapper.classList.add('show'); // Trigger image animation
+                } else {
+                    errorMessage.classList.remove('hidden'); // Show error message
+                    passwordInput.value = ''; // Clear input
+                }
+            });
 
-        // Function to handle answer clicks
-        function handleAnswer(type) {
-            if (type === 'yes') {
-                showMessage(questions[currentQuestionIndex].yesAnswer);
-            } else if (type === 'no') {
-                showMessage(questions[currentQuestionIndex].noAnswer);
+            // Allow pressing Enter key for password submission
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    enterButton.click();
+                }
+            });
+
+            // Card flip logic
+            if (revealButton && backButton && cardContainer) {
+                revealButton.addEventListener('click', () => {
+                    cardContainer.classList.add('flipped');
+                });
+
+                backButton.addEventListener('click', () => {
+                    cardContainer.classList.remove('flipped');
+                });
+            } else {
+                console.error("Required card elements not found.");
             }
-        }
-
-        // Function to show custom message
-        function showMessage(message) {
-            messageBox.innerHTML = message;
-            messageBox.classList.add('show');
-
-            // Optionally hide the message after a few seconds
-            setTimeout(() => {
-                hideMessageBox();
-            }, 4000); // Message disappears after 4 seconds
-        }
-
-        // Function to hide the message box
-        function hideMessageBox() {
-            messageBox.classList.remove('show');
-        }
-
-        // Function to show the next question
-        function showNextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-            }
-        }
-
-        // Function to show the previous question
-        function showPreviousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-            }
-        }
-
-        // Function to update the state of navigation buttons (enabled/disabled)
-        function updateNavigationButtons() {
-            prevBtn.disabled = (currentQuestionIndex === 0);
-            nextBtn.disabled = (currentQuestionIndex === questions.length - 1);
-        }
-
-        // Function to restart the quiz
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            displayQuestion();
-            hideMessageBox();
-        }
-
-        // Initialize the quiz when the page loads
-        document.addEventListener('DOMContentLoaded', displayQuestion);
+        });
     </script>
 </body>
-
 </html>
