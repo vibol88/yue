@@ -1,741 +1,2271 @@
 <!DOCTYPE html>
-<html lang="km">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ប្រព័ន្ធគ្រប់គ្រងសិស្ស - Student Management System</title>
+    <title>Pai vibol - Full Stack Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'khmer': ['Khmer OS', 'serif']
-                    }
-                }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        /* Your existing CSS styles remain the same */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Khmer+OS:wght@400;700&display=swap');
-        body {
-            font-family: 'Khmer OS', serif;
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: #3b82f6; }
+            51%, 100% { border-color: transparent; }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .animate-pulse-custom {
+            animation: pulse 2s infinite;
+        }
+        
+        .skill-bar {
+            transition: width 1.5s ease-in-out;
+            width: 0%;
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: #3b82f6;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Dark theme styles - IMPROVED */
+        .dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            color: #f8fafc;
+        }
+        
+        .dark .glass-morphism {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .dark .text-gray-300 {
+            color: #e2e8f0 !important;
+        }
+        
+        .dark .text-gray-400 {
+            color: #cbd5e1 !important;
+        }
+        
+        .dark .text-gray-500 {
+            color: #94a3b8 !important;
+        }
+        
+        .dark .text-white {
+            color: #f8fafc !important;
+        }
+        
+        /* Light theme styles */
+        .light {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 50%, #f1f5f9 100%);
+            color: #1e293b;
+        }
+        
+        .light .glass-morphism {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .light .text-gray-200 {
+            color: #374151 !important;
+        }
+        
+        .light .text-gray-300 {
+            color: #374151 !important;
+        }
+        
+        .light .text-gray-400 {
+            color: #4b5563 !important;
+        }
+        
+        .light .text-gray-500 {
+            color: #6b7280 !important;
+        }
+        
+        .light .text-white {
+            color: #1f2937 !important;
+        }
+        
+        /* Light mode form fixes */
+        .light input, .light textarea, .light select {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            border-color: #d1d5db !important;
+            color: #1f2937 !important;
+        }
+        
+        .light input::placeholder, .light textarea::placeholder {
+            color: #6b7280 !important;
+        }
+        
+        .light input:focus, .light textarea:focus, .light select:focus {
+            background-color: #ffffff !important;
+            border-color: #3b82f6 !important;
+            color: #1f2937 !important;
+        }
+        
+        /* Light mode progress bars */
+        .light .bg-gray-600 {
+            background-color: #e5e7eb !important;
+        }
+        
+        .light .bg-gray-700 {
+            background-color: #f3f4f6 !important;
+        }
+        
+        /* Light mode borders */
+        .light .border-gray-500 {
+            border-color: #d1d5db !important;
+        }
+        
+        .light .border-gray-600 {
+            border-color: #d1d5db !important;
+        }
+        
+        .light .border-gray-700 {
+            border-color: #e5e7eb !important;
+        }
+        
+        /* Light mode navigation */
+        .light .nav-link {
+            color: #374151 !important;
+        }
+        
+        .light .nav-link:hover {
+            color: #3b82f6 !important;
+        }
+        
+        /* Light mode buttons */
+        .light .text-blue-400 {
+            color: #2563eb !important;
+        }
+        
+        .light .hover\:text-blue-300:hover {
+            color: #1d4ed8 !important;
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+            margin: 2rem 0;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .glass-morphism {
+                background: white !important;
+                border: 1px solid #e5e7eb !important;
+            }
+        }
+        
+        /* Loading animation */
+        .loader {
+            border: 3px solid #374151;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+            transform: scaleX(0);
+            transform-origin: left;
+            z-index: 9999;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Enhanced form styles */
+        .dark input, .dark textarea, .dark select {
+            background-color: rgba(55, 65, 81, 0.6) !important;
+            border-color: rgba(75, 85, 99, 0.8) !important;
+            color: #f8fafc !important;
+        }
+        
+        .dark input::placeholder, .dark textarea::placeholder {
+            color: #9ca3af !important;
+        }
+        
+        .dark input:focus, .dark textarea:focus, .dark select:focus {
+            background-color: rgba(55, 65, 81, 0.8) !important;
+            border-color: #3b82f6 !important;
+            color: #f8fafc !important;
+        }
+        
+        /* Enhanced skill bars for better visibility */
+        .dark .skill-bar {
+            background: rgba(59, 130, 246, 0.8) !important;
+        }
+        
+        /* Better mobile menu contrast */
+        .dark #mobile-menu {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Enhanced button visibility */
+        .dark .bg-gray-700 {
+            background-color: rgba(55, 65, 81, 0.8) !important;
+        }
+        
+        /* Better progress bar backgrounds */
+        .dark .bg-gray-700 {
+            background-color: rgba(55, 65, 81, 0.6) !important;
+        }
+        
+        /* Enhanced loading screen */
+        .dark #loading-screen {
+            background: #0f172a;
+        }
+        
+        .dark #loading-screen .loader {
+            border-color: #374151;
+            border-top-color: #60a5fa;
+        }
+        
+        /* Better footer visibility */
+        .dark .border-gray-800 {
+            border-color: rgba(55, 65, 81, 0.8) !important;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-lg border-b-4 border-blue-500">
-        <div class="container mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">ប្រព័ន្ធគ្រប់គ្រងសិស្ស</h1>
-                        <p class="text-gray-600">Student Management System</p>
-                    </div>
+<body class="dark min-h-screen transition-all duration-300">
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator no-print"></div>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50 no-print">
+        <div class="text-center">
+            <div class="loader mx-auto mb-4"></div>
+            <p class="text-white text-lg font-medium">Loading Portfolio...</p>
+        </div>
+    </div>
+
+    <!-- Header with Navigation -->
+    <nav class="fixed top-0 w-full glass-morphism z-40 no-print transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold">
+                    <span class="text-blue-400">Pai</span> <span class="gradient-text">vibol</span>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                        សិស្សទាំងអស់: <span id="totalStudents">0</span>
-                    </span>
-                    <button id="exportBtn" 
-                            class="ml-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center text-sm">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        នាំចេញ Excel
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-link hover:text-blue-400 transition-colors duration-200 text-gray-200 font-medium">Home</a>
+                    <a href="#about" class="nav-link hover:text-blue-400 transition-colors duration-200 text-gray-200 font-medium">About</a>
+                    <a href="#experience" class="nav-link hover:text-blue-400 transition-colors duration-200 text-gray-200 font-medium">Experience</a>
+                    <a href="#skills" class="nav-link hover:text-blue-400 transition-colors duration-200 text-gray-200 font-medium">Skills</a>
+                    <a href="#projects" class="nav-link hover:text-blue-400 transition-colors duration-200 text-gray-200 font-medium">Projects</a>
+                    <a href="#contact" class="nav-link hover:text-blue-400 transition-colors duration-200 text-gray-200 font-medium">Contact</a>
+                </div>
+                
+                <!-- Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Toggle Buttons -->
+                    <button id="contactBtn" onclick="scrollToSection('contact')" 
+                            class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors duration-200 text-white">
+                        <i class="fas fa-envelope mr-2"></i>Contact Form
+                    </button>
+                    <button id="adminBtn" 
+                            class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200 text-white">
+                        <i class="fas fa-cog mr-2"></i>Admin Panel
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()" class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors duration-200">
+                        <i id="theme-icon" class="fas fa-moon text-white"></i>
                     </button>
                 </div>
             </div>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-        <!-- Add Student Form -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-green-500">
-            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg>
-                បន្ថែមសិស្សថ្មី - Add New Student
-            </h2>
             
-            <form id="studentForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">ឈ្មោះពេញ (Full Name)</label>
-                    <input type="text" id="fullName" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 glass-morphism rounded-lg">
+                <div class="flex flex-col space-y-2 px-4 py-2">
+                    <a href="#home" class="nav-link block py-2 hover:text-blue-400 transition-colors text-gray-200 font-medium">Home</a>
+                    <a href="#about" class="nav-link block py-2 hover:text-blue-400 transition-colors text-gray-200 font-medium">About</a>
+                    <a href="#experience" class="nav-link block py-2 hover:text-blue-400 transition-colors text-gray-200 font-medium">Experience</a>
+                    <a href="#skills" class="nav-link block py-2 hover:text-blue-400 transition-colors text-gray-200 font-medium">Skills</a>
+                    <a href="#projects" class="nav-link block py-2 hover:text-blue-400 transition-colors text-gray-200 font-medium">Projects</a>
+                    <a href="#contact" class="nav-link block py-2 hover:text-blue-400 transition-colors text-gray-200 font-medium">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 px-6 min-h-screen flex items-center">
+        <div class="container mx-auto text-center">
+            <div class="opacity-0 animate-fadeInUp" style="animation-delay: 0.2s;">
+                <!-- Profile Image -->
+                <div class="w-40 h-40 mx-auto mb-8 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 p-1 animate-pulse-custom">
+                    <div class="w-full h-full rounded-full glass-morphism flex items-center justify-center">
+                        <img class="object-cover w-full h-full rounded-full" src="./img/photo_2025-09-22_01-13-06.jpg" alt="Pai vibol">
+                    </div>
                 </div>
                 
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">លេខសម្គាល់ (Student ID)</label>
-                    <input type="text" id="studentId" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <!-- Animated Name -->
+                <div class="mb-6">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-2">
+                        <span id="typing-name" class="gradient-text"></span>
+                        <span class="typing-cursor"></span>
+                    </h1>
                 </div>
                 
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">ថ្នាក់ (Class)</label>
-                    <select id="studentClass" required 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                        <option value="">ជ្រើសរើសថ្នាក់</option>
-                        <option value="ថ្នាក់ទី៧">ថ្នាក់ទី៧</option>
-                        <option value="ថ្នាក់ទី៨">ថ្នាក់ទី៨</option>
-                        <option value="ថ្នាក់ទី៩">ថ្នាក់ទី៩</option>
-                        <option value="ថ្នាក់ទី១០">ថ្នាក់ទី១០</option>
-                        <option value="ថ្នាក់ទី១១">ថ្នាក់ទី១១</option>
-                        <option value="ថ្នាក់ទី១២">ថ្នាក់ទី១២</option>
-                    </select>
+                <!-- Animated Job Title -->
+                <div class="mb-8">
+                    <p class="text-xl md:text-3xl text-blue-300 font-light">
+                        <span id="typing-title"></span>
+                    </p>
                 </div>
                 
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">ភេទ (Gender)</label>
-                    <select id="gender" required 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                        <option value="">ជ្រើសរើសភេទ</option>
-                        <option value="ប្រុស">ប្រុស (Male)</option>
-                        <option value="ស្រី">ស្រី (Female)</option>
-                    </select>
-                </div>
+                <!-- Description -->
+                <p class="text-lg text-gray-200 max-w-3xl mx-auto mb-8 leading-relaxed">
+                    Passionate about creating innovative web solutions with modern technologies. 
+                    Specializing in full-stack development with <strong class="text-white">1+ years</strong> of experience 
+                    building scalable applications and beautiful user interfaces that users love.
+                </p>
                 
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">ថ្ងៃខែឆ្នាំកំណើត (Birth Date)</label>
-                    <input type="date" id="birthDate" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                </div>
-                
-                <div>
-                    <label class="block text-gray-700 font-medium mb-2">លេខទូរស័ព្ទ (Phone)</label>
-                    <input type="tel" id="phone" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                           placeholder="012345678">
-                </div>
-                
-                <div class="md:col-span-2 lg:col-span-3">
-                    <label class="block text-gray-700 font-medium mb-2">អាសយដ្ឋាន (Address)</label>
-                    <textarea id="address" rows="2" 
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                              placeholder="អាសយដ្ឋានលម្អិត..."></textarea>
-                </div>
-                
-                <div class="md:col-span-2 lg:col-span-3 flex gap-4">
-                    <button type="submit" 
-                            class="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
-                        បន្ថែមសិស្ស
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                    <button onclick="downloadCV()" 
+                            class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 transform hover:scale-105 hover-glow">
+                        <i class="fas fa-download mr-2"></i>Download Resume
                     </button>
-                    <button type="button" id="clearForm" 
-                            class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-all duration-300 flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                        សម្អាត
+                    <button onclick="scrollToSection('contact')" 
+                            class="border-2 border-blue-400 hover:bg-blue-400 hover:text-black px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-blue-400">
+                        <i class="fas fa-envelope mr-2"></i>Get In Touch
+                    </button>
+                    <button onclick="scrollToSection('projects')" 
+                            class="bg-transparent hover:bg-white/10 px-8 py-4 rounded-full font-semibold border border-gray-500 hover:border-white transition-all duration-300 transform hover:scale-105 text-gray-200">
+                        <i class="fas fa-eye mr-2"></i>View Work
+                    </button>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex justify-center space-x-6">
+                    <a href="https://linkedin.com" target="_blank" 
+                       class="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com" target="_blank" 
+                       class="w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-800 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" 
+                       class="w-12 h-12 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="mailto:bolvi340@email.com" 
+                       class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" 
+                       class="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-200">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                
+                <!-- Scroll Down Indicator -->
+                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce no-print mb-5">
+                    <i class="fas fa-chevron-down text-2xl text-blue-400"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title text-white">
+                    About <span class="gradient-text">Me</span>
+                </h2>
+                <div class="section-divider max-w-xs mx-auto"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Get to know more about who I am, what I do, and what skills I have
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Column - About Info -->
+                <div class="opacity-0 animate-slideInLeft">
+                    <div class="glass-morphism rounded-2xl p-8 hover-glow">
+                        <h3 class="text-3xl font-semibold mb-6 text-blue-400">
+                            <i class="fas fa-user-circle mr-3"></i>Who I Am
+                        </h3>
+                        <p class="text-gray-200 mb-6 leading-relaxed text-lg">
+                            I'm a <strong class="text-white">Full Stack Developer</strong> with expertise in modern web technologies. 
+                            I love turning complex problems into simple, beautiful, and intuitive solutions.
+                        </p>
+                        <p class="text-gray-200 mb-8 leading-relaxed text-lg">
+                            When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, 
+                            mentoring other developers, or sharing knowledge with the tech community through blogs and talks.
+                        </p>
+                        
+                        <!-- Personal Details -->
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-birthday-cake text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-300 text-sm">Age</p>
+                                        <p class="font-semibold text-white">21 Years</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-300 text-sm">Location</p>
+                                        <p class="font-semibold text-white">Takev, CA</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-graduation-cap text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-300 text-sm">Education</p>
+                                        <p class="font-semibold text-white">BS Computer Science</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-briefcase text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-300 text-sm">Experience</p>
+                                        <p class="font-semibold text-white">1+ Years</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Stats & Achievements -->
+                <div class="opacity-0 animate-slideInRight">
+                    <div class="space-y-8">
+                        <!-- Achievement Stats -->
+                        <div class="glass-morphism rounded-2xl p-8 hover-glow">
+                            <h4 class="text-2xl font-semibold mb-8 text-center text-purple-400">
+                                <i class="fas fa-trophy mr-2"></i>Achievements & Stats
+                            </h4>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-blue-400 mb-2" data-count="50">0</div>
+                                    <p class="text-gray-300">Projects Completed</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-400 mb-2" data-count="98">0</div>
+                                    <p class="text-gray-300">Client Satisfaction</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-purple-400 mb-2" data-count="25">0</div>
+                                    <p class="text-gray-300">Team Projects</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-yellow-400 mb-2" data-count="15">0</div>
+                                    <p class="text-gray-300">Awards Won</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bars -->
+                        <div class="glass-morphism rounded-2xl p-8 hover-glow">
+                            <h4 class="text-2xl font-semibold mb-6 text-yellow-400">
+                                <i class="fas fa-chart-line mr-2"></i>Key Metrics
+                            </h4>
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white font-medium">Problem Solving</span>
+                                        <span class="text-blue-400 font-semibold">95%</span>
+                                    </div>
+                                    <div class="h-3 bg-gray-600 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transform scale-x-0 origin-left transition-transform duration-1000" 
+                                             data-width="95%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white font-medium">Team Collaboration</span>
+                                        <span class="text-green-400 font-semibold">92%</span>
+                                    </div>
+                                    <div class="h-3 bg-gray-600 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transform scale-x-0 origin-left transition-transform duration-1000" 
+                                             data-width="92%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white font-medium">Code Quality</span>
+                                        <span class="text-purple-400 font-semibold">90%</span>
+                                    </div>
+                                    <div class="h-3 bg-gray-600 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full transform scale-x-0 origin-left transition-transform duration-1000" 
+                                             data-width="90%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-white font-medium">Innovation</span>
+                                        <span class="text-yellow-400 font-semibold">88%</span>
+                                    </div>
+                                    <div class="h-3 bg-gray-600 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full transform scale-x-0 origin-left transition-transform duration-1000" 
+                                             data-width="88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 px-6 relative">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title text-white">
+                    Work <span class="gradient-text">Experience</span>
+                </h2>
+                <div class="section-divider max-w-xs mx-auto"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    My professional journey and career milestones
+                </p>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 to-purple-600 hidden lg:block"></div>
+                
+                <div class="space-y-16">
+                    <!-- Experience Item 1 -->
+                    <div class="opacity-0 animate-fadeInUp experience-item flex flex-col lg:flex-row items-center">
+                        <div class="lg:w-1/2 lg:pr-12">
+                            <div class="glass-morphism rounded-2xl p-8 hover-glow relative">
+                                <!-- Timeline Dot -->
+                                <div class="absolute -right-6 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-blue-600 rounded-full border-4 border-gray-900 hidden lg:flex items-center justify-center">
+                                    <i class="fas fa-briefcase text-white"></i>
+                                </div>
+                                
+                                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-6">
+                                    <div>
+                                        <h3 class="text-2xl font-semibold text-purple-400 mb-2">Full Stack Developer</h3>
+                                        <h4 class="text-xl text-gray-200 mb-2">StartupXYZ</h4>
+                                        <p class="text-gray-300 text-sm">Remote</p>
+                                    </div>
+                                    <div class="mt-4 sm:mt-0">
+                                        <span class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 rounded-full text-sm font-semibold text-white">
+                                            2024 - 2025
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-gray-200 mb-6 leading-relaxed">
+                                    Developed and maintained multiple web applications using modern JavaScript frameworks and cloud technologies.
+                                </p>
+                                
+                                <ul class="text-gray-200 space-y-3 mb-6">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Built responsive web applications using React and TypeScript
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Developed RESTful APIs and integrated third-party services
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Optimized application performance improving load times by 40%
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Collaborated with UX/UI designers on user interface improvements
+                                    </li>
+                                </ul>
+                                
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-600/20 text-blue-300 px-3 py-1 rounded-full text-sm">Vue.js</span>
+                                    <span class="bg-green-600/20 text-green-300 px-3 py-1 rounded-full text-sm">Express</span>
+                                    <span class="bg-red-600/20 text-red-300 px-3 py-1 rounded-full text-sm">MongoDB</span>
+                                    <span class="bg-purple-600/20 text-purple-300 px-3 py-1 rounded-full text-sm">GraphQL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 lg:pr-12 mt-8 lg:mt-0  lg:pl-12">
+                            <div class="glass-morphism rounded-2xl p-6 hover-glow">
+                                <h4 class="text-lg font-semibold mb-4 text-pink-400">Project Highlights</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-rocket text-blue-400 mr-3"></i>
+                                        <span class="text-gray-200">Launched 3 major products</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users text-green-400 mr-3"></i>
+                                        <span class="text-gray-200">Served 50k+ active users</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-code text-purple-400 mr-3"></i>
+                                        <span class="text-gray-200">Wrote 100k+ lines of code</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Item 2 -->
+                    <div class="opacity-0 animate-fadeInUp experience-item flex flex-col lg:flex-row items-center">
+                        <div class="lg:w-1/2 lg:pr-12">
+                            <div class="glass-morphism rounded-2xl p-8 hover-glow relative">
+                                <!-- Timeline Dot -->
+                                <div class="absolute -right-6 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-green-600 rounded-full border-4 border-gray-900 hidden lg:flex items-center justify-center">
+                                    <i class="fas fa-laptop-code text-white"></i>
+                                </div>
+                                
+                                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-6">
+                                    <div>
+                                        <h3 class="text-2xl font-semibold text-green-400 mb-2">Junior Developer</h3>
+                                        <h4 class="text-xl text-gray-200 mb-2">WebSolutions Inc.</h4>
+                                        <p class="text-gray-300 text-sm">Phnom pen, ca</p>
+                                    </div>
+                                    <div class="mt-4 sm:mt-0">
+                                        <span class="inline-block bg-gradient-to-r from-green-600 to-teal-600 px-4 py-2 rounded-full text-sm font-semibold text-white">
+                                            2024 - 2025
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-gray-200 mb-6 leading-relaxed">
+                                    Started my professional journey, learning industry best practices and contributing to various client projects.
+                                </p>
+                                
+                                <ul class="text-gray-200 space-y-3 mb-6">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Developed frontend components using HTML, CSS, and JavaScript
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Collaborated with senior developers on code reviews
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-400 mt-1 mr-3 text-sm"></i>
+                                        Participated in agile development methodologies
+                                    </li>
+                                </ul>
+                                
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-orange-600/20 text-orange-300 px-3 py-1 rounded-full text-sm">HTML/CSS</span>
+                                    <span class="bg-yellow-600/20 text-yellow-300 px-3 py-1 rounded-full text-sm">JavaScript</span>
+                                    <span class="bg-blue-600/20 text-blue-300 px-3 py-1 rounded-full text-sm">jQuery</span>
+                                    <span class="bg-green-600/20 text-green-300 px-3 py-1 rounded-full text-sm">PHP</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
+                            <div class="glass-morphism rounded-2xl p-6 hover-glow">
+                                <h4 class="text-lg font-semibold mb-4 text-teal-400">Learning & Growth</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-graduation-cap text-blue-400 mr-3"></i>
+                                        <span class="text-gray-200">Completed 10+ certifications</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-book text-green-400 mr-3"></i>
+                                        <span class="text-gray-200">Mastered 5 new technologies</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-award text-yellow-400 mr-3"></i>
+                                        <span class="text-gray-200">Rookie of the Year 2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title text-white">
+                    Technical <span class="gradient-text">Skills</span>
+                </h2>
+                <div class="section-divider max-w-xs mx-auto"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Technologies and tools I work with to bring ideas to life
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+                <!-- Frontend Skills -->
+                <div class="opacity-0 animate-fadeInUp skill-category">
+                    <div class="glass-morphism rounded-2xl p-8 h-full hover-glow">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-paint-brush text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-blue-400">Frontend</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">React.js</span>
+                                    <span class="text-sm text-blue-400 font-semibold">95%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" data-width="95%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">TypeScript</span>
+                                    <span class="text-sm text-blue-400 font-semibold">90%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" data-width="90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Vue.js</span>
+                                    <span class="text-sm text-blue-400 font-semibold">85%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full" data-width="85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Tailwind CSS</span>
+                                    <span class="text-sm text-blue-400 font-semibold">92%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-teal-400 to-cyan-500 rounded-full" data-width="92%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Skills -->
+                <div class="opacity-0 animate-fadeInUp skill-category">
+                    <div class="glass-morphism rounded-2xl p-8 h-full hover-glow">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-server text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-green-400">Backend</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Node.js</span>
+                                    <span class="text-sm text-green-400 font-semibold">88%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full" data-width="88%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Python</span>
+                                    <span class="text-sm text-green-400 font-semibold">85%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full" data-width="85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Express.js</span>
+                                    <span class="text-sm text-green-400 font-semibold">90%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-gray-400 to-gray-600 rounded-full" data-width="90%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">GraphQL</span>
+                                    <span class="text-sm text-green-400 font-semibold">82%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-pink-400 to-purple-500 rounded-full" data-width="82%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Skills -->
+                <div class="opacity-0 animate-fadeInUp skill-category">
+                    <div class="glass-morphism rounded-2xl p-8 h-full hover-glow">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-database text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-purple-400">Database</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">PostgreSQL</span>
+                                    <span class="text-sm text-purple-400 font-semibold">85%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full" data-width="85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">MongoDB</span>
+                                    <span class="text-sm text-purple-400 font-semibold">88%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-green-500 to-teal-600 rounded-full" data-width="88%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Redis</span>
+                                    <span class="text-sm text-purple-400 font-semibold">80%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-red-500 to-pink-600 rounded-full" data-width="80%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Firebase</span>
+                                    <span class="text-sm text-purple-400 font-semibold">75%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full" data-width="75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & DevOps -->
+                <div class="opacity-0 animate-fadeInUp skill-category">
+                    <div class="glass-morphism rounded-2xl p-8 h-full hover-glow">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-tools text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-orange-400">DevOps & Tools</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Docker</span>
+                                    <span class="text-sm text-orange-400 font-semibold">85%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" data-width="85%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">AWS</span>
+                                    <span class="text-sm text-orange-400 font-semibold">78%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full" data-width="78%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Git</span>
+                                    <span class="text-sm text-orange-400 font-semibold">93%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-red-400 to-pink-500 rounded-full" data-width="93%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-white font-medium">Kubernetes</span>
+                                    <span class="text-sm text-orange-400 font-semibold">70%</span>
+                                </div>
+                                <div class="h-2 bg-gray-600 rounded-full overflow-hidden">
+                                    <div class="skill-bar h-full bg-gradient-to-r from-purple-400 to-indigo-500 rounded-full" data-width="70%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 px-6">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title text-white">
+                    Featured <span class="gradient-text">Projects</span>
+                </h2>
+                <div class="section-divider max-w-xs mx-auto"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Some of the projects I've worked on recently
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="opacity-0 animate-fadeInUp project-item group">
+                    <div class="glass-morphism rounded-2xl overflow-hidden hover-glow transition-all duration-300 transform hover:scale-105 h-full">
+                        <div class="h-48 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart text-6xl text-white/80"></i>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">Live</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors text-white">E-Commerce Platform</h3>
+                            <p class="text-gray-200 text-sm mb-4 leading-relaxed">
+                                Full-stack e-commerce solution with payment integration, inventory management, admin dashboard, and real-time analytics.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-600/20 text-blue-300 px-2 py-1 rounded text-xs">React</span>
+                                <span class="bg-green-600/20 text-green-300 px-2 py-1 rounded text-xs">Node.js</span>
+                                <span class="bg-purple-600/20 text-purple-300 px-2 py-1 rounded text-xs">Stripe</span>
+                                <span class="bg-orange-600/20 text-orange-300 px-2 py-1 rounded text-xs">AWS</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button onclick="openProject('ecommerce')" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                                </button>
+                                <button onclick="openGithub('ecommerce')" class="text-gray-300 hover:text-white transition-colors flex items-center">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="opacity-0 animate-fadeInUp project-item group">
+                    <div class="glass-morphism rounded-2xl overflow-hidden hover-glow transition-all duration-300 transform hover:scale-105 h-full">
+                        <div class="h-48 bg-gradient-to-br from-green-500 via-teal-500 to-blue-500 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-chart-line text-6xl text-white/80"></i>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold">Beta</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors text-white">Analytics Dashboard</h3>
+                            <p class="text-gray-200 text-sm mb-4 leading-relaxed">
+                                Real-time analytics dashboard with interactive charts, data visualization, and customizable reporting features.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-600/20 text-blue-300 px-2 py-1 rounded text-xs">Vue.js</span>
+                                <span class="bg-yellow-600/20 text-yellow-300 px-2 py-1 rounded text-xs">D3.js</span>
+                                <span class="bg-red-600/20 text-red-300 px-2 py-1 rounded text-xs">MongoDB</span>
+                                <span class="bg-green-600/20 text-green-300 px-2 py-1 rounded text-xs">Socket.io</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button onclick="openProject('analytics')" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                                </button>
+                                <button onclick="openGithub('analytics')" class="text-gray-300 hover:text-white transition-colors flex items-center">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="opacity-0 animate-fadeInUp project-item group">
+                    <div class="glass-morphism rounded-2xl overflow-hidden hover-glow transition-all duration-300 transform hover:scale-105 h-full">
+                        <div class="h-48 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-mobile-alt text-6xl text-white/80"></i>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-semibold">App</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors text-white">Task Management App</h3>
+                            <p class="text-gray-200 text-sm mb-4 leading-relaxed">
+                                Modern task management application with team collaboration, real-time updates, and intuitive drag-and-drop interface.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-600/20 text-blue-300 px-2 py-1 rounded text-xs">React Native</span>
+                                <span class="bg-green-600/20 text-green-300 px-2 py-1 rounded text-xs">Expo</span>
+                                <span class="bg-purple-600/20 text-purple-300 px-2 py-1 rounded text-xs">Firebase</span>
+                                <span class="bg-red-600/20 text-red-300 px-2 py-1 rounded text-xs">Redux</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button onclick="openProject('taskapp')" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                                </button>
+                                <button onclick="openGithub('taskapp')" class="text-gray-300 hover:text-white transition-colors flex items-center">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="opacity-0 animate-fadeInUp project-item group">
+                    <div class="glass-morphism rounded-2xl overflow-hidden hover-glow transition-all duration-300 transform hover:scale-105 h-full">
+                        <div class="h-48 bg-gradient-to-br from-yellow-500 via-orange-500 to-red-500 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-brain text-6xl text-white/80"></i>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-semibold">AI</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors text-white">AI Chat Assistant</h3>
+                            <p class="text-gray-200 text-sm mb-4 leading-relaxed">
+                                Intelligent chatbot powered by machine learning with natural language processing and contextual understanding.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-600/20 text-blue-300 px-2 py-1 rounded text-xs">Python</span>
+                                <span class="bg-green-600/20 text-green-300 px-2 py-1 rounded text-xs">TensorFlow</span>
+                                <span class="bg-purple-600/20 text-purple-300 px-2 py-1 rounded text-xs">OpenAI</span>
+                                <span class="bg-orange-600/20 text-orange-300 px-2 py-1 rounded text-xs">FastAPI</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button onclick="openProject('chatbot')" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                                </button>
+                                <button onclick="openGithub('chatbot')" class="text-gray-300 hover:text-white transition-colors flex items-center">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="opacity-0 animate-fadeInUp project-item group">
+                    <div class="glass-morphism rounded-2xl overflow-hidden hover-glow transition-all duration-300 transform hover:scale-105 h-full">
+                        <div class="h-48 bg-gradient-to-br from-indigo-500 via-blue-500 to-teal-500 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-video text-6xl text-white/80"></i>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-indigo-500 text-white px-2 py-1 rounded-full text-xs font-semibold">SaaS</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors text-white">Video Streaming Platform</h3>
+                            <p class="text-gray-200 text-sm mb-4 leading-relaxed">
+                                Netflix-like streaming platform with video upload, transcoding, user management, and subscription features.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-600/20 text-blue-300 px-2 py-1 rounded text-xs">Next.js</span>
+                                <span class="bg-green-600/20 text-green-300 px-2 py-1 rounded text-xs">FFmpeg</span>
+                                <span class="bg-purple-600/20 text-purple-300 px-2 py-1 rounded text-xs">WebRTC</span>
+                                <span class="bg-red-600/20 text-red-300 px-2 py-1 rounded text-xs">Redis</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button onclick="openProject('streaming')" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Live Demo
+                                </button>
+                                <button onclick="openGithub('streaming')" class="text-gray-300 hover:text-white transition-colors flex items-center">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="opacity-0 animate-fadeInUp project-item group">
+                    <div class="glass-morphism rounded-2xl overflow-hidden hover-glow transition-all duration-300 transform hover:scale-105 h-full">
+                        <div class="h-48 bg-gradient-to-br from-pink-500 via-rose-500 to-orange-500 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-gamepad text-6xl text-white/80"></i>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">Game</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3 group-hover:text-blue-400 transition-colors text-white">Multiplayer Browser Game</h3>
+                            <p class="text-gray-200 text-sm mb-4 leading-relaxed">
+                                Real-time multiplayer game built with WebGL graphics, physics engine, and competitive leaderboards.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="bg-blue-600/20 text-blue-300 px-2 py-1 rounded text-xs">Three.js</span>
+                                <span class="bg-green-600/20 text-green-300 px-2 py-1 rounded text-xs">Socket.io</span>
+                                <span class="bg-purple-600/20 text-purple-300 px-2 py-1 rounded text-xs">WebGL</span>
+                                <span class="bg-yellow-600/20 text-yellow-300 px-2 py-1 rounded text-xs">Cannon.js</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button onclick="openProject('game')" class="text-blue-400 hover:text-blue-300 transition-colors flex items-center">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Play Game
+                                </button>
+                                <button onclick="openGithub('game')" class="text-gray-300 hover:text-white transition-colors flex items-center">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View More Projects Button -->
+            <div class="text-center mt-12">
+                <button onclick="showMoreProjects()" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-3 rounded-full font-semibold text-white transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-plus mr-2"></i>View More Projects
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title text-white">
+                    Get In <span class="gradient-text">Touch</span>
+                </h2>
+                <div class="section-divider max-w-xs mx-auto"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Have a project in mind? Let's work together to create something amazing
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Contact Info -->
+                <div class="opacity-0 animate-slideInLeft">
+                    <div class="glass-morphism rounded-2xl p-8 h-full">
+                        <h3 class="text-2xl font-semibold mb-8 text-blue-400">
+                            <i class="fas fa-paper-plane mr-3"></i>Let's Work Together
+                        </h3>
+                        <p class="text-gray-200 mb-8 leading-relaxed text-lg">
+                            I'm always interested in hearing about new opportunities and exciting projects. 
+                            Whether you have a question, want to discuss a potential collaboration, or just want to say hi, 
+                            feel free to reach out!
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center group">
+                                <div class="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-envelope text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-300 text-sm">Email</p>
+                                    <a href="mailto:bolvi340@email.com" class="font-semibold text-white hover:text-blue-400 transition-colors">bolvi340@email.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center group">
+                                <div class="w-14 h-14 bg-gradient-to-r from-green-600 to-teal-600 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-phone text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-300 text-sm">Phone</p>
+                                    <a href="tel:+855978218672" class="font-semibold text-white hover:text-green-400 transition-colors">(+855) 097 821 8672</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center group">
+                                <div class="w-14 h-14 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-map-marker-alt text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-300 text-sm">Location</p>
+                                    <p class="font-semibold text-white">Takew, PH, Cam</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center group">
+                                <div class="w-14 h-14 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-clock text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-300 text-sm">Response Time</p>
+                                    <p class="font-semibold text-white">Within 24 hours</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="mt-8 pt-8 border-t border-gray-600">
+                            <p class="text-gray-300 mb-4">Follow me on social media:</p>
+                            <div class="flex space-x-4">
+                                <a href="https://linkedin.com" target="_blank" 
+                                   class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://github.com" target="_blank" 
+                                   class="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://twitter.com" target="_blank" 
+                                   class="w-12 h-12 bg-blue-400 rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://instagram.com" target="_blank" 
+                                   class="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="glass-morphism rounded-2xl p-8">
+                    <form onsubmit="handleContactSubmit(event)">
+                        <h3 class="text-2xl font-semibold mb-6 text-purple-400">
+                            <i class="fas fa-paper-plane mr-3"></i>Send Message
+                        </h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-200" for="name">Name</label>
+                                <input type="text" id="name" name="name" required
+                                       class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                                       placeholder="Your Name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-200" for="email">Email</label>
+                                <input type="email" id="email" name="email" required
+                                       class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                                       placeholder="your@email.com">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-2 text-gray-200" for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone"
+                                   class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                                   placeholder="(+855) 012 345 678">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium mb-2 text-gray-200" for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required
+                                      class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all resize-none"
+                                      placeholder="Tell us about your inquiry..."></textarea>
+                        </div>
+                        
+                        <button type="submit" 
+                                class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-paper-plane mr-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-gray-700">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">
+                        <span class="text-blue-400">Pai</span> <span class="gradient-text">vibol</span>
+                    </h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Full Stack Developer passionate about creating innovative web solutions and helping businesses grow through technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://linkedin.com" target="_blank" class="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center text-white transition-colors">
+                            <i class="fab fa-linkedin-in text-sm"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors">
+                            <i class="fab fa-github text-sm"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="w-10 h-10 bg-blue-400 hover:bg-blue-500 rounded-lg flex items-center justify-center text-white transition-colors">
+                            <i class="fab fa-twitter text-sm"></i>
+                        </a>
+                        <a href="mailto:bolvi340@email.com" class="w-10 h-10 bg-red-600 hover:bg-red-700 rounded-lg flex items-center justify-center text-white transition-colors">
+                            <i class="fas fa-envelope text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                        <li><a href="#experience" class="text-gray-300 hover:text-blue-400 transition-colors">Experience</a></li>
+                        <li><a href="#skills" class="text-gray-300 hover:text-blue-400 transition-colors">Skills</a></li>
+                        <li><a href="#projects" class="text-gray-300 hover:text-blue-400 transition-colors">Projects</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Services</h4>
+                    <ul class="space-y-2">
+                        <li><span class="text-gray-300">Web Development</span></li>
+                        <li><span class="text-gray-300">Mobile Apps</span></li>
+                        <li><span class="text-gray-300">UI/UX Design</span></li>
+                        <li><span class="text-gray-300">Consulting</span></li>
+                        <li><span class="text-gray-300">Code Review</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-300 mb-2">
+                    © 2025 Pai vibol. All rights reserved.
+                </p>
+                <p class="text-gray-400 text-sm">
+                    Built with ❤️ using HTML, Tailwind CSS, and JavaScript
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="scrollToTop()" 
+            class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full flex items-center justify-center text-white opacity-0 transition-all transform hover:scale-110 no-print shadow-lg">
+        <i class="fas fa-arrow-up text-lg"></i>
+    </button>
+
+   <div id="adminLogin" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div class="glass-morphism rounded-2xl p-8 w-full max-w-md mx-4 animate-slideIn">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-2xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-semibold text-white">Admin Login</h3>
+                <p class="text-gray-300 mt-2">Enter credentials to access admin panel</p>
+            </div>
+            
+            <form onsubmit="adminLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2 text-gray-200" for="username">Username</label>
+                    <input type="text" name="username" required
+                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
+                           placeholder="Enter username">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2 text-gray-200" for="password">Password</label>
+                    <input type="password" name="password" required
+                           class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
+                           placeholder="Enter password">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="cancelAdminLogin()" 
+                            class="flex-1 bg-gray-600 hover:bg-gray-700 px-4 py-3 rounded-lg font-semibold text-white transition-all">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-4 py-3 rounded-lg font-semibold text-white transition-all">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
                     </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Search and Filter -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-blue-500">
-            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                ស្វែងរក និង តម្រង - Search & Filter
-            </h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <input type="text" id="searchInput" placeholder="ស្វែងរកតាមឈ្មោះ ឬ លេខសម្គាល់..."
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                </div>
-                
-                <div>
-                    <select id="classFilter" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                        <option value="">គ្រប់ថ្នាក់ទាំងអស់</option>
-                        <option value="ថ្នាក់ទី៧">ថ្នាក់ទី៧</option>
-                        <option value="ថ្នាក់ទី៨">ថ្នាក់ទី៨</option>
-                        <option value="ថ្នាក់ទី៩">ថ្នាក់ទី៩</option>
-                        <option value="ថ្នាក់ទី១០">ថ្នាក់ទី១០</option>
-                        <option value="ថ្នាក់ទី១១">ថ្នាក់ទី១១</option>
-                        <option value="ថ្នាក់ទី១២">ថ្នាក់ទី១២</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <select id="genderFilter" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
-                        <option value="">គ្រប់ភេទទាំងអស់</option>
-                        <option value="ប្រុស">ប្រុស</option>
-                        <option value="ស្រី">ស្រី</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Students List -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-purple-500">
-            <div class="p-6 border-b border-gray-200">
-                <h3 class="text-xl font-bold text-gray-800 flex items-center">
-                    <svg class="w-6 h-6 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                    បញ្ជីសិស្ស - Students List
-                </h3>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">លេខ</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ឈ្មោះពេញ</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">លេខសម្គាល់</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ថ្នាក់</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ភេទ</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ថ្ងៃកំណើត</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">លេខទូរស័ព្ទ</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">សកម្មភាព</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentsTableBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Students will be populated here -->
-                    </tbody>
-                </table>
-                
-                <div id="noStudents" class="hidden p-8 text-center text-gray-500">
-                    <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                    <p class="text-lg">មិនមានសិស្សទេ</p>
-                    <p class="text-sm">សូមបន្ថែមសិស្សដំបូង</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Edit Modal -->
-    <div id="editModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-            <div class="mt-3">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-bold text-gray-900">កែប្រែព័ត៌មានសិស្ស - Edit Student</h3>
-                    <button id="closeModal" class="text-gray-400 hover:text-gray-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <form id="editForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="hidden" id="editIndex">
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">ឈ្មោះពេញ</label>
-                        <input type="text" id="editFullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">លេខសម្គាល់</label>
-                        <input type="text" id="editStudentId" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">ថ្នាក់</label>
-                        <select id="editStudentClass" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">ជ្រើសរើសថ្នាក់</option>
-                            <option value="ថ្នាក់ទី៧">ថ្នាក់ទី៧</option>
-                            <option value="ថ្នាក់ទី៨">ថ្នាក់ទី៨</option>
-                            <option value="ថ្នាក់ទី៩">ថ្នាក់ទី៩</option>
-                            <option value="ថ្នាក់ទី១០">ថ្នាក់ទី១០</option>
-                            <option value="ថ្នាក់ទី១១">ថ្នាក់ទី១១</option>
-                            <option value="ថ្នាក់ទី១២">ថ្នាក់ទី១២</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">ភេទ</label>
-                        <select id="editGender" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">ជ្រើសរើសភេទ</option>
-                            <option value="ប្រុស">ប្រុស (Male)</option>
-                            <option value="ស្រី">ស្រី (Female)</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">ថ្ងៃខែឆ្នាំកំណើត</label>
-                        <input type="date" id="editBirthDate" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">លេខទូរស័ព្ទ</label>
-                        <input type="tel" id="editPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-700 font-medium mb-2">អាសយដ្ឋាន</label>
-                        <textarea id="editAddress" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
-                    </div>
-                    
-                    <div class="md:col-span-2 flex gap-4 pt-4">
-                        <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            រក្សាទុកការផ្លាស់ប្តូរ
-                        </button>
-                        <button type="button" id="cancelEdit" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
-                            បោះបង់
-                        </button>
-                    </div>
-                </form>
+            <div class="mt-4 p-3 bg-blue-600/20 rounded-lg">
+                <p class="text-blue-300 text-sm text-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Demo: admin / password123
+                </p>
             </div>
         </div>
     </div>
 
-    <script>
-        // Student data array
-        let students = [];
-        let editingIndex = -1;
-
-        // DOM elements
-        const studentForm = document.getElementById('studentForm');
-        const studentsTableBody = document.getElementById('studentsTableBody');
-        const totalStudentsSpan = document.getElementById('totalStudents');
-        const noStudentsDiv = document.getElementById('noStudents');
-        const searchInput = document.getElementById('searchInput');
-        const classFilter = document.getElementById('classFilter');
-        const genderFilter = document.getElementById('genderFilter');
-        const editModal = document.getElementById('editModal');
-        const editForm = document.getElementById('editForm');
-        const clearFormBtn = document.getElementById('clearForm');
-        const closeModalBtn = document.getElementById('closeModal');
-        const cancelEditBtn = document.getElementById('cancelEdit');
-        const exportBtn = document.getElementById('exportBtn');
-
-        // Event listeners
-        studentForm.addEventListener('submit', handleSubmit);
-        editForm.addEventListener('submit', handleEditSubmit);
-        searchInput.addEventListener('input', filterAndDisplayStudents);
-        classFilter.addEventListener('change', filterAndDisplayStudents);
-        genderFilter.addEventListener('change', filterAndDisplayStudents);
-        clearFormBtn.addEventListener('click', clearForm);
-        closeModalBtn.addEventListener('click', closeEditModal);
-        cancelEditBtn.addEventListener('click', closeEditModal);
-        exportBtn.addEventListener('click', exportToExcel);
-
-        // Handle form submission
-        function handleSubmit(e) {
-            e.preventDefault();
+    <!-- Admin Dashboard (Full Screen) -->
+    <div id="adminDashboard" class="fixed inset-0 bg-gray-900/95 backdrop-blur-sm z-40 hidden">
+        <div class="h-full flex flex-col animate-fadeIn">
+            <!-- Dashboard Header -->
+            <div class="glass-morphism border-b border-white/10 p-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Messages Dashboard</h2>
+                        <p class="text-gray-300">Manage contact form submissions</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="refreshMessages()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white transition-all">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </button>
+                        <button onclick="clearAllMessages()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white transition-all">
+                            <i class="fas fa-trash-alt mr-2"></i>Clear All
+                        </button>
+                        <button onclick="adminLogout()" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg text-white transition-all">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
             
-            const formData = new FormData(studentForm);
-            const student = {
-                fullName: document.getElementById('fullName').value,
-                studentId: document.getElementById('studentId').value,
-                studentClass: document.getElementById('studentClass').value,
-                gender: document.getElementById('gender').value,
-                birthDate: document.getElementById('birthDate').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                dateAdded: new Date().toISOString().split('T')[0]
-            };
-
-            // Check if student ID already exists
-            if (students.some(s => s.studentId === student.studentId)) {
-                alert('លេខសម្គាល់នេះមានរួចហើយ! Student ID already exists!');
-                return;
-            }
-
-            students.push(student);
-            displayStudents();
-            clearForm();
-            showSuccessMessage('បានបន្ថែមសិស្សដោយជោគជ័យ!');
-        }
-
-        // Handle edit form submission
-        function handleEditSubmit(e) {
-            e.preventDefault();
-            
-            const index = parseInt(document.getElementById('editIndex').value);
-            const updatedStudent = {
-                ...students[index],
-                fullName: document.getElementById('editFullName').value,
-                studentId: document.getElementById('editStudentId').value,
-                studentClass: document.getElementById('editStudentClass').value,
-                gender: document.getElementById('editGender').value,
-                birthDate: document.getElementById('editBirthDate').value,
-                phone: document.getElementById('editPhone').value,
-                address: document.getElementById('editAddress').value
-            };
-
-            // Check if student ID already exists (excluding current student)
-            if (students.some((s, i) => s.studentId === updatedStudent.studentId && i !== index)) {
-                alert('លេខសម្គាល់នេះមានរួចហើយ! Student ID already exists!');
-                return;
-            }
-
-            students[index] = updatedStudent;
-            displayStudents();
-            closeEditModal();
-            showSuccessMessage('បានកែប្រែព័ត៌មានដោយជោគជ័យ!');
-        }
-
-        // Clear form
-        function clearForm() {
-            studentForm.reset();
-        }
-
-        // Display students
-        function displayStudents() {
-            const filteredStudents = getFilteredStudents();
-            if (filteredStudents.length === 0) {
-                studentsTableBody.innerHTML = '';
-                noStudentsDiv.classList.remove('hidden');
-            } else {
-                noStudentsDiv.classList.add('hidden');
-                studentsTableBody.innerHTML = filteredStudents.map((student, index) => {
-                    // Find the original index in the students array for edit/delete
-                    const originalIndex = students.findIndex(s => s.studentId === student.studentId);
-                    return `
-                        <tr class="hover:bg-gray-50 transition-colors duration-200">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${index + 1}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-white font-medium">
-                                            ${student.fullName.charAt(0).toUpperCase()}
-                                        </div>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">${student.fullName}</div>
-                                    </div>
+            <!-- Dashboard Content -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="glass-morphism rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-300 text-sm">Total Messages</p>
+                                    <p class="text-3xl font-bold text-white" id="totalMessages">0</p>
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.studentId}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    ${student.studentClass}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${student.gender === 'ប្រុស' ? 'bg-green-100 text-green-800' : 'bg-pink-100 text-pink-800'}">
-                                    ${student.gender}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(student.birthDate)}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.phone || 'មិនមាន'}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button onclick="editStudent(${originalIndex})" 
-                                        class="text-indigo-600 hover:text-indigo-900 mr-4 inline-flex items-center px-3 py-1 rounded-md text-sm bg-indigo-100 hover:bg-indigo-200 transition-colors duration-200">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                    កែប្រែ
-                                </button>
-                                <button onclick="deleteStudent(${originalIndex})" 
-                                        class="text-red-600 hover:text-red-900 inline-flex items-center px-3 py-1 rounded-md text-sm bg-red-100 hover:bg-red-200 transition-colors duration-200">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                    លុប
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-morphism rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-300 text-sm">Unread</p>
+                                    <p class="text-3xl font-bold text-yellow-400" id="unreadMessages">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-yellow-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-bell text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-morphism rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-300 text-sm">Read</p>
+                                    <p class="text-3xl font-bold text-green-400" id="readMessages">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-morphism rounded-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-300 text-sm">Today</p>
+                                    <p class="text-3xl font-bold text-purple-400" id="todayMessages">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-calendar-day text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages List -->
+                    <div class="glass-morphism rounded-lg p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-semibold text-white">Recent Messages</h3>
+                            <div class="flex gap-2">
+                                <button onclick="filterMessages('all')" class="px-3 py-1 rounded-lg bg-indigo-600 text-white text-sm transition-all filter-btn active">All</button>
+                                <button onclick="filterMessages('unread')" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm transition-all filter-btn">Unread</button>
+                                <button onclick="filterMessages('read')" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm transition-all filter-btn">Read</button>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4" id="messagesContainer">
+                            <!-- Messages will be loaded here -->
+                        </div>
+                        
+                        <div id="noMessages" class="text-center py-12 text-gray-400 hidden">
+                            <i class="fas fa-inbox text-6xl mb-4"></i>
+                            <p class="text-xl">No messages found</p>
+                            <p class="text-sm mt-2">Messages will appear here when submitted</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-morphism rounded-2xl p-8 max-w-md mx-4 text-center transform scale-75 transition-transform duration-300">
+            <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-2xl text-white"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">Message Sent!</h3>
+            <p class="text-gray-200 mb-6">Thank you for your message. We'll get back to you soon!</p>
+            <button onclick="closeModal()" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-lg text-white transition-all">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let isDarkMode = true;
+        let isAdminLoggedIn = false;
+        let currentFilter = 'all';
+        
+        // Sample messages data
+        let messages = [
+            {
+                id: 1,
+                name: "Sophea Chan",
+                email: "sophea@email.com",
+                phone: "012 345 678",
+                message: "សួស្តី! ខ្ញុំចង់សួរអំពីសេវាកម្មរបស់អ្នក។ តើអ្នកអាចផ្តល់ព័ត៌មានលម្អិតបន្ថែមបានទេ?",
+                timestamp: new Date('2024-01-20 10:30'),
+                status: 'unread'
+            },
+            {
+                id: 2,
+                name: "Dara Pov",
+                email: "dara@gmail.com",
+                phone: "017 888 999",
+                message: "Hello, I'm interested in your products. Can you provide more information about pricing and availability?",
+                timestamp: new Date('2024-01-19 15:45'),
+                status: 'read'
+            },
+            {
+                id: 3,
+                name: "Kimly Oum",
+                email: "kimly@example.com",
+                phone: "",
+                message: "Good morning! I would like to schedule a consultation meeting. When would be a good time?",
+                timestamp: new Date('2024-01-18 09:20'),
+                status: 'read'
             }
-            totalStudentsSpan.textContent = students.length;
-        }
+        ];
 
-        // Filter students based on search and filter criteria
-        function getFilteredStudents() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const classFilterValue = classFilter.value;
-            const genderFilterValue = genderFilter.value;
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen after a delay
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 500);
+            }, 2000);
+            
+            // Start typing animations
+            setTimeout(startTypingAnimations, 2500);
+            
+            // Initialize scroll-triggered animations
+            initializeScrollAnimations();
+            
+            // Initialize scroll indicator
+            initializeScrollIndicator();
+            
+            // Add smooth scrolling to navigation links
+            initializeSmoothScrolling();
+            
+            // Initialize active navigation highlighting
+            initializeActiveNavigation();
+            
+            // Set up button event listeners
+            document.getElementById('contactBtn').addEventListener('click', () => toggleView('contact'));
+            document.getElementById('adminBtn').addEventListener('click', () => toggleView('admin'));
+        });
 
-            return students.filter(student => {
-                const matchesSearch = student.fullName.toLowerCase().includes(searchTerm) || 
-                                    student.studentId.toLowerCase().includes(searchTerm);
-                const matchesClass = !classFilterValue || student.studentClass === classFilterValue;
-                const matchesGender = !genderFilterValue || student.gender === genderFilterValue;
-
-                return matchesSearch && matchesClass && matchesGender;
+        // Typing Animations
+        function startTypingAnimations() {
+            const name = "Pai vibol E3";
+            const title = "Full Stack Developer & UI/UX Designer";
+            
+            typeText('typing-name', name, 150, () => {
+                setTimeout(() => {
+                    typeText('typing-title', title, 100);
+                }, 500);
             });
         }
 
-        // Filter and display students
-        function filterAndDisplayStudents() {
-            displayStudents();
+        function typeText(elementId, text, speed, callback) {
+            const element = document.getElementById(elementId);
+            let i = 0;
+            element.textContent = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
         }
 
-        // Edit student
-        function editStudent(index) {
-            const student = students[index];
+        // Scroll Animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        
+                        // Handle skill bars animation
+                        if (entry.target.classList.contains('skill-category')) {
+                            animateSkillBars(entry.target);
+                        }
+                        
+                        // Handle counter animations
+                        if (entry.target.querySelector('[data-count]')) {
+                            animateCounters(entry.target);
+                        }
+                        
+                        // Handle progress bars
+                        if (entry.target.querySelector('[data-width]')) {
+                            animateProgressBars(entry.target);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            const animatedElements = document.querySelectorAll(
+                '.animate-fadeInUp, .animate-slideInLeft, .animate-slideInRight, .section-title, .experience-item, .skill-category, .project-item'
+            );
             
-            document.getElementById('editIndex').value = index;
-            document.getElementById('editFullName').value = student.fullName;
-            document.getElementById('editStudentId').value = student.studentId;
-            document.getElementById('editStudentClass').value = student.studentClass;
-            document.getElementById('editGender').value = student.gender;
-            document.getElementById('editBirthDate').value = student.birthDate;
-            document.getElementById('editPhone').value = student.phone || '';
-            document.getElementById('editAddress').value = student.address || '';
-            
-            editModal.classList.remove('hidden');
-            editingIndex = index;
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+                observer.observe(el);
+            });
         }
 
-        // Delete student
-        function deleteStudent(index) {
-            const student = students[index];
-            if (confirm(`តើអ្នកពិតជាចង់លុបសិស្ស "${student.fullName}" មែនទេ?\nAre you sure you want to delete student "${student.fullName}"?`)) {
-                students.splice(index, 1);
-                displayStudents();
-                showSuccessMessage('បានលុបសិស្សដោយជោគជ័យ!');
+        function animateSkillBars(container) {
+            const skillBars = container.querySelectorAll('.skill-bar');
+            skillBars.forEach((bar, index) => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, index * 200);
+            });
+        }
+
+        function animateCounters(container) {
+            const counters = container.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                setTimeout(updateCounter, Math.random() * 500);
+            });
+        }
+
+        function animateProgressBars(container) {
+            const progressBars = container.querySelectorAll('[data-width]');
+            progressBars.forEach((bar, index) => {
+                const width = bar.getAttribute('data-width');
+                setTimeout(() => {
+                    bar.style.transform = `scaleX(${parseInt(width) / 100})`;
+                }, index * 200);
+            });
+        }
+
+        // Scroll Indicator
+        function initializeScrollIndicator() {
+            const indicator = document.querySelector('.scroll-indicator');
+            
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height);
+                indicator.style.transform = `scaleX(${scrolled})`;
+            });
+        }
+
+        // Smooth Scrolling
+        function initializeSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Active Navigation
+        function initializeActiveNavigation() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('text-blue-400');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('text-blue-400');
+                    }
+                });
+                
+                // Back to top button
+                const backToTop = document.getElementById('backToTop');
+                if (window.scrollY > 300) {
+                    backToTop.style.opacity = '1';
+                    backToTop.style.transform = 'translateY(0) scale(1)';
+                } else {
+                    backToTop.style.opacity = '0';
+                    backToTop.style.transform = 'translateY(10px) scale(0.8)';
+                }
+            });
+        }
+
+        // Utility Functions
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            if (isDarkMode) {
+                body.className = 'dark min-h-screen transition-all duration-300';
+                icon.className = 'fas fa-moon text-white';
+            } else {
+                body.className = 'light min-h-screen transition-all duration-300';
+                icon.className = 'fas fa-sun text-white';
             }
         }
 
-        // Close edit modal
-        function closeEditModal() {
-            editModal.classList.add('hidden');
-            editingIndex = -1;
-            editForm.reset();
+        // View toggle
+        function toggleView(view) {
+            if (view === 'admin') {
+                if (!isAdminLoggedIn) {
+                    showAdminLogin();
+                    return;
+                } else {
+                    showAdminDashboard();
+                }
+            } else {
+                showContactForm();
+            }
+            
+            updateButtonStates(view);
         }
 
-        // Format date
-        function formatDate(dateString) {
-            if (!dateString) return 'មិនមាន';
-            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            return new Date(dateString).toLocaleDateString('km-KH', options);
+        function updateButtonStates(view) {
+            const contactBtn = document.getElementById('contactBtn');
+            const adminBtn = document.getElementById('adminBtn');
+            
+            if (view === 'contact') {
+                contactBtn.className = 'px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors duration-200 text-white';
+                adminBtn.className = 'px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors duration-200 text-white';
+            } else if (view === 'admin' && isAdminLoggedIn) {
+                contactBtn.className = 'px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors duration-200 text-white';
+                adminBtn.className = 'px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200 text-white';
+            }
         }
 
-        // Show success message
-        function showSuccessMessage(message) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
-            successDiv.innerHTML = `
+        function showContactForm() {
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('adminLogin').classList.add('hidden');
+        }
+
+        function showAdminLogin() {
+            document.getElementById('adminLogin').classList.remove('hidden');
+        }
+
+        function cancelAdminLogin() {
+            document.getElementById('adminLogin').classList.add('hidden');
+        }
+
+        function showAdminDashboard() {
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            document.getElementById('adminLogin').classList.add('hidden');
+            loadMessages();
+            updateStats();
+        }
+
+        // Admin login
+        function adminLogin(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const username = formData.get('username');
+            const password = formData.get('password');
+            
+            if (username === 'admin' && password === 'password123') {
+                isAdminLoggedIn = true;
+                showAdminDashboard();
+                updateButtonStates('admin');
+                showNotification('Login successful!', 'success');
+            } else {
+                showNotification('Invalid credentials! Try: admin / password123', 'error');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            showContactForm();
+            updateButtonStates('contact');
+            showNotification('Logged out successfully', 'info');
+        }
+
+        // Contact form submission
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                const newMessage = {
+                    id: messages.length + 1,
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone') || '',
+                    message: formData.get('message'),
+                    timestamp: new Date(),
+                    status: 'unread'
+                };
+                
+                messages.unshift(newMessage);
+                
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                event.target.reset();
+                showSuccessModal();
+                
+                if (isAdminLoggedIn) {
+                    loadMessages();
+                    updateStats();
+                }
+            }, 2000);
+        }
+
+        // Message management
+        function loadMessages() {
+            const container = document.getElementById('messagesContainer');
+            const noMessages = document.getElementById('noMessages');
+            
+            let filteredMessages = messages;
+            if (currentFilter !== 'all') {
+                filteredMessages = messages.filter(msg => msg.status === currentFilter);
+            }
+            
+            if (filteredMessages.length === 0) {
+                container.innerHTML = '';
+                noMessages.classList.remove('hidden');
+                return;
+            }
+            
+            noMessages.classList.add('hidden');
+            
+            container.innerHTML = filteredMessages.map(msg => `
+                <div class="bg-white/5 border border-white/10 rounded-lg p-6 ${msg.status === 'unread' ? 'border-l-4 border-l-blue-400' : ''} hover:bg-white/10 transition-colors">
+                    <div class="flex flex-col lg:flex-row justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h4 class="font-semibold text-white text-lg">${msg.name}</h4>
+                                <span class="inline-block px-2 py-1 rounded-full text-xs font-medium ${msg.status === 'unread' ? 'bg-blue-500 text-white' : 'bg-gray-500 text-gray-200'}">
+                                    ${msg.status === 'unread' ? 'New' : 'Read'}
+                                </span>
+                            </div>
+                            <div class="text-gray-300 text-sm space-y-1 mb-3">
+                                <p><i class="fas fa-envelope mr-2"></i>${msg.email}</p>
+                                ${msg.phone ? `<p><i class="fas fa-phone mr-2"></i>${msg.phone}</p>` : ''}
+                                <p><i class="fas fa-clock mr-2"></i>${formatDate(msg.timestamp)}</p>
+                            </div>
+                            <div class="bg-white/5 rounded-lg p-4 mb-4">
+                                <p class="text-gray-200 leading-relaxed">${msg.message}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            ${msg.status === 'unread' ? 
+                                `<button onclick="markAsRead(${msg.id})" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-white text-sm transition-all font-medium">
+                                    <i class="fas fa-eye mr-1"></i>Mark as Read
+                                </button>` : ''
+                            }
+                            <button onclick="deleteMessage(${msg.id})" class="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg text-white text-sm transition-all font-medium">
+                                <i class="fas fa-trash mr-1"></i>Delete
+                            </button>
+                            <button onclick="replyToMessage('${msg.email}')" class="bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg text-white text-sm transition-all font-medium">
+                                <i class="fas fa-reply mr-1"></i>Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function markAsRead(id) {
+            const message = messages.find(msg => msg.id === id);
+            if (message) {
+                message.status = 'read';
+                loadMessages();
+                updateStats();
+                showNotification('Message marked as read', 'success');
+            }
+        }
+
+        function deleteMessage(id) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                messages = messages.filter(msg => msg.id !== id);
+                loadMessages();
+                updateStats();
+                showNotification('Message deleted successfully', 'success');
+            }
+        }
+
+        function replyToMessage(email) {
+            const subject = 'Re: Your message';
+            const body = 'Thank you for your message. ';
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink);
+        }
+
+        function refreshMessages() {
+            loadMessages();
+            updateStats();
+            showNotification('Messages refreshed!', 'success');
+        }
+
+        function clearAllMessages() {
+            if (confirm('Are you sure you want to delete all messages? This action cannot be undone.')) {
+                messages = [];
+                loadMessages();
+                updateStats();
+                showNotification('All messages deleted!', 'success');
+            }
+        }
+
+        function filterMessages(filter) {
+            currentFilter = filter;
+            
+            // Update filter button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-indigo-600');
+                btn.classList.add('bg-gray-700');
+            });
+            
+            event.target.classList.add('active', 'bg-indigo-600');
+            event.target.classList.remove('bg-gray-700');
+            
+            loadMessages();
+        }
+
+        function updateStats() {
+            const total = messages.length;
+            const unread = messages.filter(msg => msg.status === 'unread').length;
+            const read = messages.filter(msg => msg.status === 'read').length;
+            const today = messages.filter(msg => {
+                const msgDate = new Date(msg.timestamp).toDateString();
+                const todayDate = new Date().toDateString();
+                return msgDate === todayDate;
+            }).length;
+
+            document.getElementById('totalMessages').textContent = total;
+            document.getElementById('unreadMessages').textContent = unread;
+            document.getElementById('readMessages').textContent = read;
+            document.getElementById('todayMessages').textContent = today;
+        }
+
+        function formatDate(date) {
+            return new Date(date).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Modal functions
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const modalContent = modal.querySelector('.glass-morphism');
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-75');
+            modalContent.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            const modalContent = modal.querySelector('.glass-morphism');
+            
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-75');
+            setTimeout(() => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 300);
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-24 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform translate-x-full transition-all duration-300`;
+            
+            const colors = {
+                'success': 'bg-green-600 text-white',
+                'error': 'bg-red-600 text-white',
+                'warning': 'bg-yellow-600 text-black',
+                'info': 'bg-blue-600 text-white'
+            };
+            
+            const icons = {
+                'success': 'fa-check-circle',
+                'error': 'fa-exclamation-triangle',
+                'warning': 'fa-exclamation',
+                'info': 'fa-info-circle'
+            };
+            
+            notification.classList.add(...colors[type].split(' '));
+            
+            notification.innerHTML = `
                 <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    ${message}
+                    <i class="fas ${icons[type]} mr-3"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 hover:opacity-75">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             `;
             
-            document.body.appendChild(successDiv);
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                successDiv.style.transform = 'translateX(100%)';
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
                 setTimeout(() => {
-                    document.body.removeChild(successDiv);
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
                 }, 300);
-            }, 3000);
+            }, 4000);
         }
 
-        // Export to Excel with beautiful formatting
-        function exportToExcel() {
-            if (students.length === 0) {
-                alert('មិនមានទិន្នន័យសិស្សទេ!');
-                return;
-            }
+        // Project functions
+        function downloadCV() {
+            showNotification('CV download started!', 'success');
+            setTimeout(() => {
+                showNotification('This is a demo. In a real application, your CV would be downloaded now.', 'info');
+            }, 1000);
+        }
 
-            // Create workbook
-            const workbook = XLSX.utils.book_new();
-            
-            // Prepare data with beautiful formatting
-            const excelData = [
-                // Title row
-                ['បញ្ជីសិស្ស - Students List', '', '', '', '', '', ''],
-                ['', '', '', '', '', '', ''],
-                // Header row with styling
-                [
-                    'ល.រ', 
-                    'ឈ្មោះពេញ', 
-                    'លេខសម្គាល់', 
-                    'ថ្នាក់', 
-                    'ភេទ', 
-                    'ថ្ងៃកំណើត', 
-                    'លេខទូរស័ព្ទ',
-                    'អាសយដ្ឋាន'
-                ],
-                // Data rows
-                ...students.map((student, index) => [
-                    index + 1,
-                    student.fullName,
-                    student.studentId,
-                    student.studentClass,
-                    student.gender,
-                    formatDateForExcel(student.birthDate),
-                    student.phone || 'មិនមាន',
-                    student.address || 'មិនមាន'
-                ]),
-                // Summary row
-                ['', '', '', '', '', '', ''],
-                [`សរុបសិស្ស: ${students.length} នាក់`, '', '', '', '', '', '']
-            ];
+        function openProject(projectName) {
+            showNotification(`Opening ${projectName} project...`, 'info');
+        }
 
-            // Create worksheet
-            const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+        function openGithub(projectName) {
+            showNotification(`Opening ${projectName} source code...`, 'info');
+        }
 
-            // Apply styling through cell properties
-            const range = XLSX.utils.decode_range(worksheet['!ref']);
-            
-            // Style cells
-            for (let R = range.s.r; R <= range.e.r; R++) {
-                for (let C = range.s.c; C <= range.e.c; C++) {
-                    const cell_address = {c: C, r: R};
-                    const cell_ref = XLSX.utils.encode_cell(cell_address);
-                    
-                    if (!worksheet[cell_ref]) continue;
-                    
-                    // Title row styling (row 0)
-                    if (R === 0) {
-                        worksheet[cell_ref].s = {
-                            font: { bold: true, sz: 16, color: { rgb: "FFFFFF" } },
-                            fill: { fgColor: { rgb: "2E86AB" } },
-                            alignment: { horizontal: "center", vertical: "center" }
-                        };
-                    }
-                    // Header row styling (row 2)
-                    else if (R === 2) {
-                        worksheet[cell_ref].s = {
-                            font: { bold: true, sz: 12, color: { rgb: "FFFFFF" } },
-                            fill: { fgColor: { rgb: "4A90E2" } },
-                            alignment: { horizontal: "center", vertical: "center" },
-                            border: {
-                                top: { style: "thin", color: { rgb: "000000" } },
-                                left: { style: "thin", color: { rgb: "000000" } },
-                                bottom: { style: "thin", color: { rgb: "000000" } },
-                                right: { style: "thin", color: { rgb: "000000" } }
-                            }
-                        };
-                    }
-                    // Data rows styling
-                    else if (R >= 3 && R <= students.length + 2) {
-                        worksheet[cell_ref].s = {
-                            font: { sz: 11 },
-                            alignment: { horizontal: "left", vertical: "center" },
-                            border: {
-                                left: { style: "thin", color: { rgb: "DDDDDD" } },
-                                right: { style: "thin", color: { rgb: "DDDDDD" } },
-                                bottom: { style: "thin", color: { rgb: "DDDDDD" } }
-                            }
-                        };
-                        
-                        // Alternate row colors
-                        if (R % 2 === 1) {
-                            worksheet[cell_ref].s.fill = { fgColor: { rgb: "F8F9FA" } };
-                        } else {
-                            worksheet[cell_ref].s.fill = { fgColor: { rgb: "FFFFFF" } };
-                        }
-                        
-                        // Center alignment for serial number and gender
-                        if (C === 0 || C === 4) {
-                            worksheet[cell_ref].s.alignment = { horizontal: "center", vertical: "center" };
-                        }
-                    }
-                    // Summary row styling
-                    else if (R === students.length + 4) {
-                        worksheet[cell_ref].s = {
-                            font: { bold: true, sz: 12, color: { rgb: "FFFFFF" } },
-                            fill: { fgColor: { rgb: "27AE60" } },
-                            alignment: { horizontal: "center", vertical: "center" }
-                        };
-                    }
+        function showMoreProjects() {
+            showNotification('Loading more projects...', 'info');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!document.getElementById('adminLogin').classList.contains('hidden')) {
+                    cancelAdminLogin();
+                } else if (!document.getElementById('successModal').classList.contains('pointer-events-none')) {
+                    closeModal();
+                } else if (isAdminLoggedIn && document.getElementById('adminDashboard').classList.contains('hidden') === false) {
+                    showContactForm();
+                    updateButtonStates('contact');
                 }
             }
-
-            // Set column widths
-            worksheet['!cols'] = [
-                { wch: 8 },  // Serial number
-                { wch: 25 }, // Full name
-                { wch: 15 }, // Student ID
-                { wch: 15 }, // Class
-                { wch: 10 }, // Gender
-                { wch: 15 }, // Birth date
-                { wch: 15 }, // Phone
-                { wch: 30 }  // Address
-            ];
-
-            // Merge title cells
-            if (!worksheet['!merges']) worksheet['!merges'] = [];
-            worksheet['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } });
-            worksheet['!merges'].push({ s: { r: students.length + 4, c: 0 }, e: { r: students.length + 4, c: 7 } });
-
-            // Add worksheet to workbook
-            XLSX.utils.book_append_sheet(workbook, worksheet, "សិស្ស");
-
-            // Generate Excel file
-            const today = new Date();
-            const dateString = today.toISOString().split('T')[0];
-            XLSX.writeFile(workbook, `students_${dateString}.xlsx`);
-        }
-
-        // Format date for Excel
-        function formatDateForExcel(dateString) {
-            if (!dateString) return 'មិនមាន';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('km-KH');
-        }
-
-        // Close modal when clicking outside
-        editModal.addEventListener('click', function(e) {
-            if (e.target === editModal) {
-                closeEditModal();
+            
+            // Admin shortcuts
+            if (isAdminLoggedIn) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                    e.preventDefault();
+                    refreshMessages();
+                }
             }
         });
 
-        // Initialize page
-        function initializePage() {
-            // Add some sample data for demonstration
-            const sampleStudents = [
-                {
-                    fullName: "សុខ ចន្ទ្រា",
-                    studentId: "ST001",
-                    studentClass: "ថ្នាក់ទី១០",
-                    gender: "ស្រី",
-                    birthDate: "2008-03-15",
-                    phone: "012345678",
-                    address: "ផ្ទះលេខ ១២៣, ផ្លូវ ១៥០, សង្កាត់បឹងកក់, ខណ្ឌទួលគោក, រាជធានីភ្នំពេញ",
-                    dateAdded: new Date().toISOString().split('T')[0]
-                },
-                {
-                    fullName: "លី ដារ៉ា",
-                    studentId: "ST002",
-                    studentClass: "ថ្នាក់ទី១០",
-                    gender: "ប្រុស",
-                    birthDate: "2008-07-22",
-                    phone: "098765432",
-                    address: "ភូមិព្រែកតាព្រីង, ឃុំព្រែកតាព្រីង, ស្រុកអង្គស្នួល, ខេត្តកំពត",
-                    dateAdded: new Date().toISOString().split('T')[0]
-                },
-                {
-                    fullName: "ចាន់ សុភា",
-                    studentId: "ST003",
-                    studentClass: "ថ្នាក់ទី៩",
-                    gender: "ស្រី",
-                    birthDate: "2009-01-10",
-                    phone: "077123456",
-                    address: "សង្កាត់ស្លាតែក, ក្រុងសៀមរាប, ខេត្តសៀមរាប",
-                    dateAdded: new Date().toISOString().split('T')[0]
-                }
-            ];
+        // Close modals when clicking outside
+        document.getElementById('adminLogin').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                cancelAdminLogin();
+            }
+        });
 
-            students.push(...sampleStudents);
-            displayStudents();
-        }
+        document.getElementById('successModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeModal();
+            }
+        });
 
-        // Initialize the page
-        initializePage();
+        // Auto-refresh messages every 30 seconds if admin is logged in
+        setInterval(() => {
+            if (isAdminLoggedIn) {
+                updateStats();
+            }
+        }, 30000);
+
+        console.log('Portfolio initialized successfully!');
+        console.log('Admin login: admin / password123');
     </script>
-    <!-- Include SheetJS library for Excel export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
 </html>
