@@ -1,359 +1,741 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Little Something For You</title>
-    <!-- Tailwind CSS CDN -->
+    <title>ប្រព័ន្ធគ្រប់គ្រងសិស្ស - Student Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'khmer': ['Khmer OS', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Custom styles for the Inter font and smooth transitions */
+        @import url('https://fonts.googleapis.com/css2?family=Khmer+OS:wght@400;700&display=swap');
         body {
-            font-family: "Inter", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(to right top, #f0e6f6, #f8e1eb); /* Very soft purple to light rose */
-            margin: 0;
-            padding: 20px; /* Add some padding for smaller screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
-            overflow: hidden; /* Prevent scrollbars if content slightly overflows during transitions */
-        }
-        .password-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right top, #e9d5ff, #fbcfe8); /* Match body background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100; /* Ensure it's on top */
-            transition: opacity 0.5s ease-out;
-        }
-        .password-overlay.hidden {
-            opacity: 0;
-            pointer-events: none; /* Disable interactions when hidden */
-        }
-        .card-container {
-            transition: all 0.6s ease-in-out;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            width: 100%;
-            max-width: 40rem; /* Max width for the card */
-            aspect-ratio: 4 / 5; /* Maintain a consistent card shape */
-            position: relative; /* Needed for absolute positioning of inner card */
-        }
-        .card-inner {
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* More bouncy/elastic feel */
-            transform-style: preserve-3d;
-            position: absolute; /* Make inner card absolute to fill container */
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-        .card-front, .card-back {
-            backface-visibility: hidden;
-            border-radius: 1.5rem; /* rounded-3xl */
-            padding: 2.5rem; /* p-10 */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
-            position: absolute; /* Both front and back are absolute within card-inner */
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .card-front {
-            background-color: #ffffff; /* bg-white */
-            color: #4b5563; /* text-gray-600 */
-            z-index: 2; /* Ensure front is on top initially */
-        }
-        .card-back {
-            background: linear-gradient(to right top, #9333ea, #ec4899); /* Purple-700 to Pink-500 */
-            color: #ffffff; /* text-white */
-            transform: rotateY(180deg);
-            opacity: 0; /* Start hidden */
-            z-index: 1; /* Back is behind front initially */
-        }
-        .card-container.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-        .card-container.flipped .card-back {
-            opacity: 1; /* Show when flipped */
-            z-index: 3; /* Bring back to front after flip */
-        }
-        .card-container.flipped .card-front {
-            opacity: 0; /* Hide front when flipped */
-        }
-
-        /* Animation for content on the back of the card */
-        .card-back h2,
-        .card-back p,
-        .card-back button {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            transition-delay: 0.3s;
-        }
-        .card-container.flipped .card-back h2,
-        .card-container.flipped .card-back p,
-        .card-container.flipped .card-back button {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .shine-button {
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .shine-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -75%;
-            width: 50%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: skewX(-20deg);
-            transition: all 0.7s ease;
-            z-index: -1;
-        }
-        .shine-button:hover::before {
-            left: 125%;
-        }
-        /* Image container and styling to ensure it fits well */
-        .animated-image-zone {
-            position: relative;
-            width: 100%;
-            max-width: 18rem;
-            height: 12rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .image-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: transform 0.3s ease-in-out;
-            z-index: 10;
-            /* Initial state for image animation */
-            opacity: 0;
-            transform: scale(0.8);
-        }
-        .image-wrapper.show {
-            /* Final state for image animation */
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            transition-delay: 0.5s; /* Delay after password input is gone */
-        }
-        .image-wrapper:hover {
-            transform: scale(1.03);
-        }
-        #mainImage {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        /* Floating elements styles and animations */
-        .floating-element {
-            position: absolute;
-            font-size: 1.5rem;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        /* Define specific positions and animations for each element */
-        .heart-1 {
-            top: 10%;
-            left: -10%;
-            animation: float-element-1 4s ease-in-out infinite alternate;
-            animation-delay: 0s;
-            color: #ec4899; /* Pink */
-        }
-        .star-1 {
-            top: 5%;
-            right: -10%;
-            animation: float-element-2 4.5s ease-in-out infinite alternate;
-            animation-delay: 0.5s;
-            color: #fcd34d; /* Yellow */
-        }
-        .heart-2 {
-            bottom: 10%;
-            left: -5%;
-            animation: float-element-3 3.8s ease-in-out infinite alternate;
-            animation-delay: 1s;
-            color: #a78bfa; /* Light purple */
-        }
-        .star-2 {
-            bottom: 5%;
-            right: -5%;
-            animation: float-element-4 4.2s ease-in-out infinite alternate;
-            animation-delay: 1.5s;
-            color: #9333ea; /* Darker purple */
-        }
-
-        /* Keyframes for floating animations */
-        @keyframes float-element-1 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0.8); }
-            20% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
-            80% { opacity: 1; transform: translate(-5px, 5px) scale(0.9); }
-            100% { opacity: 0; transform: translate(0, 0) scale(0.8); }
-        }
-        @keyframes float-element-2 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0.7); }
-            20% { opacity: 1; transform: translate(-10px, 10px) scale(1.2); }
-            80% { opacity: 1; transform: translate(5px, -5px) scale(0.8); }
-            100% { opacity: 0; transform: translate(0, 0) scale(0.7); }
-        }
-        @keyframes float-element-3 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0.9); }
-            20% { opacity: 1; transform: translate(5px, -10px) scale(1.0); }
-            80% { opacity: 1; transform: translate(-10px, 10px) scale(1.1); }
-            100% { opacity: 0; transform: translate(0, 0) scale(0.9); }
-        }
-        @keyframes float-element-4 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
-            20% { opacity: 1; transform: translate(-5px, -5px) scale(1.1); }
-            80% { opacity: 1; transform: translate(10px, 10px) scale(0.7); }
-            100% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+            font-family: 'Khmer OS', serif;
         }
     </style>
 </head>
-<body>
-
-    <!-- Password Overlay -->
-    <div id="passwordOverlay" class="password-overlay">
-        <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm w-full">
-            <h2 class="text-2xl font-bold text-purple-800 mb-6">បញ្ចូលលេខសម្ងាត់</h2>
-            <input type="password" id="passwordInput" class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-center text-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="លេខសម្ងាត់">
-            <button id="enterButton" class="shine-button bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75">
-                ចូលមើល
-            </button>
-            <p id="errorMessage" class="text-red-500 mt-4 hidden">លេខសម្ងាត់មិនត្រឹមត្រូវ!</p>
-        </div>
-    </div>
-
-    <div class="card-container mx-auto rounded-3xl shadow-xl p-6 md:p-10 bg-white">
-        <div class="card-inner">
-            <!-- Front of the card -->
-            <div class="card-front">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-purple-800 mb-4">Hey YuE</h1>
-
-                <!-- Date and Time Display -->
-                <div class="text-center text-gray-700 mb-6">
-                    <p id="currentDateTime" class="text-xl md:text-2xl font-semibold"></p>
-                </div>
-
-                <div class="animated-image-zone">
-                    <div class="image-wrapper" id="imageWrapper">
-                        <img id="mainImage" src="./img/love.jpg" alt="Placeholder Image" onerror="this.onerror=null;this.src='https://placehold.co/300x200/a78bfa/ffffff?text=Image+Not+Found';">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b-4 border-blue-500">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253z"></path>
+                        </svg>
                     </div>
-                    <!-- Floating elements -->
-                    <div class="floating-element heart-1">❤️</div>
-                    <div class="floating-element star-1">✨</div>
-                    <div class="floating-element heart-2">💖</div>
-                    <div class="floating-element star-2">🌟</div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">ប្រព័ន្ធគ្រប់គ្រងសិស្ស</h1>
+                        <p class="text-gray-600">Student Management System</p>
+                    </div>
                 </div>
-                <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-                    Just wanted to send a little something your way to remind you how much you mean to me.
-                </p>
-                <button id="revealButton" class="shine-button bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75" aria-label="Click to reveal a surprise message">
-                    Flip for a Surprise!
-                </button>
+                <div class="flex items-center space-x-2">
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                        សិស្សទាំងអស់: <span id="totalStudents">0</span>
+                    </span>
+                    <button id="exportBtn" 
+                            class="ml-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center text-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        នាំចេញ Excel
+                    </button>
+                </div>
             </div>
+        </div>
+    </header>
 
-            <!-- Back of the card (hidden message) -->
-            <div class="card-back">
-                <h2 class="text-3xl md:text-4xl font-extrabold mb-4">My Princess❤️</h2>
-                <p class="text-xl md:text-2xl leading-relaxed mb-8">
-                    ជូនចំពោះព្រះនាងរបស់បង។បងដឹងថាបងមិនមែនជាមនុស្សប្រុសល្អអ្វីទេតែបងនឹងសន្យាថានឹងមើលថែអូន ស្រឡាញអូនអោយដូចពេជ្យទឹក១០។បងស្លាញ់អូន ពិន យូអី ❤️
-                </p>
-                <p class="text-lg mt-6 mb-8">
-                     ❤️B sl o❤️
-                </p>
-                <button id="backButton" class="shine-button bg-white text-purple-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75" aria-label="Click to go back to the front of the card">
-                    Go Back
-                </button>
+    <main class="container mx-auto px-4 py-8">
+        <!-- Add Student Form -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-green-500">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                បន្ថែមសិស្សថ្មី - Add New Student
+            </h2>
+            
+            <form id="studentForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">ឈ្មោះពេញ (Full Name)</label>
+                    <input type="text" id="fullName" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">លេខសម្គាល់ (Student ID)</label>
+                    <input type="text" id="studentId" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">ថ្នាក់ (Class)</label>
+                    <select id="studentClass" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                        <option value="">ជ្រើសរើសថ្នាក់</option>
+                        <option value="ថ្នាក់ទី៧">ថ្នាក់ទី៧</option>
+                        <option value="ថ្នាក់ទី៨">ថ្នាក់ទី៨</option>
+                        <option value="ថ្នាក់ទី៩">ថ្នាក់ទី៩</option>
+                        <option value="ថ្នាក់ទី១០">ថ្នាក់ទី១០</option>
+                        <option value="ថ្នាក់ទី១១">ថ្នាក់ទី១១</option>
+                        <option value="ថ្នាក់ទី១២">ថ្នាក់ទី១២</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">ភេទ (Gender)</label>
+                    <select id="gender" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                        <option value="">ជ្រើសរើសភេទ</option>
+                        <option value="ប្រុស">ប្រុស (Male)</option>
+                        <option value="ស្រី">ស្រី (Female)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">ថ្ងៃខែឆ្នាំកំណើត (Birth Date)</label>
+                    <input type="date" id="birthDate" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-medium mb-2">លេខទូរស័ព្ទ (Phone)</label>
+                    <input type="tel" id="phone" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                           placeholder="012345678">
+                </div>
+                
+                <div class="md:col-span-2 lg:col-span-3">
+                    <label class="block text-gray-700 font-medium mb-2">អាសយដ្ឋាន (Address)</label>
+                    <textarea id="address" rows="2" 
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                              placeholder="អាសយដ្ឋានលម្អិត..."></textarea>
+                </div>
+                
+                <div class="md:col-span-2 lg:col-span-3 flex gap-4">
+                    <button type="submit" 
+                            class="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        បន្ថែមសិស្ស
+                    </button>
+                    <button type="button" id="clearForm" 
+                            class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-all duration-300 flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        សម្អាត
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-blue-500">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                ស្វែងរក និង តម្រង - Search & Filter
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <input type="text" id="searchInput" placeholder="ស្វែងរកតាមឈ្មោះ ឬ លេខសម្គាល់..."
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                </div>
+                
+                <div>
+                    <select id="classFilter" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                        <option value="">គ្រប់ថ្នាក់ទាំងអស់</option>
+                        <option value="ថ្នាក់ទី៧">ថ្នាក់ទី៧</option>
+                        <option value="ថ្នាក់ទី៨">ថ្នាក់ទី៨</option>
+                        <option value="ថ្នាក់ទី៩">ថ្នាក់ទី៩</option>
+                        <option value="ថ្នាក់ទី១០">ថ្នាក់ទី១០</option>
+                        <option value="ថ្នាក់ទី១១">ថ្នាក់ទី១១</option>
+                        <option value="ថ្នាក់ទី១២">ថ្នាក់ទី១២</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <select id="genderFilter" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                        <option value="">គ្រប់ភេទទាំងអស់</option>
+                        <option value="ប្រុស">ប្រុស</option>
+                        <option value="ស្រី">ស្រី</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students List -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-purple-500">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                    <svg class="w-6 h-6 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    បញ្ជីសិស្ស - Students List
+                </h3>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">លេខ</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ឈ្មោះពេញ</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">លេខសម្គាល់</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ថ្នាក់</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ភេទ</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ថ្ងៃកំណើត</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">លេខទូរស័ព្ទ</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">សកម្មភាព</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Students will be populated here -->
+                    </tbody>
+                </table>
+                
+                <div id="noStudents" class="hidden p-8 text-center text-gray-500">
+                    <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <p class="text-lg">មិនមានសិស្សទេ</p>
+                    <p class="text-sm">សូមបន្ថែមសិស្សដំបូង</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-gray-900">កែប្រែព័ត៌មានសិស្ស - Edit Student</h3>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <form id="editForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="hidden" id="editIndex">
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">ឈ្មោះពេញ</label>
+                        <input type="text" id="editFullName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">លេខសម្គាល់</label>
+                        <input type="text" id="editStudentId" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">ថ្នាក់</label>
+                        <select id="editStudentClass" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">ជ្រើសរើសថ្នាក់</option>
+                            <option value="ថ្នាក់ទី៧">ថ្នាក់ទី៧</option>
+                            <option value="ថ្នាក់ទី៨">ថ្នាក់ទី៨</option>
+                            <option value="ថ្នាក់ទី៩">ថ្នាក់ទី៩</option>
+                            <option value="ថ្នាក់ទី១០">ថ្នាក់ទី១០</option>
+                            <option value="ថ្នាក់ទី១១">ថ្នាក់ទី១១</option>
+                            <option value="ថ្នាក់ទី១២">ថ្នាក់ទី១២</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">ភេទ</label>
+                        <select id="editGender" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">ជ្រើសរើសភេទ</option>
+                            <option value="ប្រុស">ប្រុស (Male)</option>
+                            <option value="ស្រី">ស្រី (Female)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">ថ្ងៃខែឆ្នាំកំណើត</label>
+                        <input type="date" id="editBirthDate" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">លេខទូរស័ព្ទ</label>
+                        <input type="tel" id="editPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 font-medium mb-2">អាសយដ្ឋាន</label>
+                        <textarea id="editAddress" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                    </div>
+                    
+                    <div class="md:col-span-2 flex gap-4 pt-4">
+                        <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            រក្សាទុកការផ្លាស់ប្តូរ
+                        </button>
+                        <button type="button" id="cancelEdit" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                            បោះបង់
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const passwordOverlay = document.getElementById('passwordOverlay');
-            const passwordInput = document.getElementById('passwordInput');
-            const enterButton = document.getElementById('enterButton');
-            const errorMessage = document.getElementById('errorMessage');
-            const imageWrapper = document.getElementById('imageWrapper'); // Get image wrapper for animation
+        // Student data array
+        let students = [];
+        let editingIndex = -1;
 
-            const revealButton = document.getElementById('revealButton');
-            const backButton = document.getElementById('backButton');
-            const cardContainer = document.querySelector('.card-container');
-            const currentDateTimeElement = document.getElementById('currentDateTime');
+        // DOM elements
+        const studentForm = document.getElementById('studentForm');
+        const studentsTableBody = document.getElementById('studentsTableBody');
+        const totalStudentsSpan = document.getElementById('totalStudents');
+        const noStudentsDiv = document.getElementById('noStudents');
+        const searchInput = document.getElementById('searchInput');
+        const classFilter = document.getElementById('classFilter');
+        const genderFilter = document.getElementById('genderFilter');
+        const editModal = document.getElementById('editModal');
+        const editForm = document.getElementById('editForm');
+        const clearFormBtn = document.getElementById('clearForm');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelEditBtn = document.getElementById('cancelEdit');
+        const exportBtn = document.getElementById('exportBtn');
 
-            const correctPassword = "180125"; // The password you requested
+        // Event listeners
+        studentForm.addEventListener('submit', handleSubmit);
+        editForm.addEventListener('submit', handleEditSubmit);
+        searchInput.addEventListener('input', filterAndDisplayStudents);
+        classFilter.addEventListener('change', filterAndDisplayStudents);
+        genderFilter.addEventListener('change', filterAndDisplayStudents);
+        clearFormBtn.addEventListener('click', clearForm);
+        closeModalBtn.addEventListener('click', closeEditModal);
+        cancelEditBtn.addEventListener('click', closeEditModal);
+        exportBtn.addEventListener('click', exportToExcel);
 
-            // Function to update date and time
-            function updateDateTime() {
-                const now = new Date();
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-                currentDateTimeElement.textContent = now.toLocaleDateString('en-US', options); // Using en-US for standard format
+        // Handle form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(studentForm);
+            const student = {
+                fullName: document.getElementById('fullName').value,
+                studentId: document.getElementById('studentId').value,
+                studentClass: document.getElementById('studentClass').value,
+                gender: document.getElementById('gender').value,
+                birthDate: document.getElementById('birthDate').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                dateAdded: new Date().toISOString().split('T')[0]
+            };
+
+            // Check if student ID already exists
+            if (students.some(s => s.studentId === student.studentId)) {
+                alert('លេខសម្គាល់នេះមានរួចហើយ! Student ID already exists!');
+                return;
             }
 
-            // Initial call and set interval for updating time
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
+            students.push(student);
+            displayStudents();
+            clearForm();
+            showSuccessMessage('បានបន្ថែមសិស្សដោយជោគជ័យ!');
+        }
 
-            // Password check logic
-            enterButton.addEventListener('click', () => {
-                if (passwordInput.value === correctPassword) {
-                    passwordOverlay.classList.add('hidden'); // Hide overlay
-                    imageWrapper.classList.add('show'); // Trigger image animation
-                } else {
-                    errorMessage.classList.remove('hidden'); // Show error message
-                    passwordInput.value = ''; // Clear input
-                }
-            });
+        // Handle edit form submission
+        function handleEditSubmit(e) {
+            e.preventDefault();
+            
+            const index = parseInt(document.getElementById('editIndex').value);
+            const updatedStudent = {
+                ...students[index],
+                fullName: document.getElementById('editFullName').value,
+                studentId: document.getElementById('editStudentId').value,
+                studentClass: document.getElementById('editStudentClass').value,
+                gender: document.getElementById('editGender').value,
+                birthDate: document.getElementById('editBirthDate').value,
+                phone: document.getElementById('editPhone').value,
+                address: document.getElementById('editAddress').value
+            };
 
-            // Allow pressing Enter key for password submission
-            passwordInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    enterButton.click();
-                }
-            });
+            // Check if student ID already exists (excluding current student)
+            if (students.some((s, i) => s.studentId === updatedStudent.studentId && i !== index)) {
+                alert('លេខសម្គាល់នេះមានរួចហើយ! Student ID already exists!');
+                return;
+            }
 
-            // Card flip logic
-            if (revealButton && backButton && cardContainer) {
-                revealButton.addEventListener('click', () => {
-                    cardContainer.classList.add('flipped');
-                });
+            students[index] = updatedStudent;
+            displayStudents();
+            closeEditModal();
+            showSuccessMessage('បានកែប្រែព័ត៌មានដោយជោគជ័យ!');
+        }
 
-                backButton.addEventListener('click', () => {
-                    cardContainer.classList.remove('flipped');
-                });
+        // Clear form
+        function clearForm() {
+            studentForm.reset();
+        }
+
+        // Display students
+        function displayStudents() {
+            const filteredStudents = getFilteredStudents();
+            if (filteredStudents.length === 0) {
+                studentsTableBody.innerHTML = '';
+                noStudentsDiv.classList.remove('hidden');
             } else {
-                console.error("Required card elements not found.");
+                noStudentsDiv.classList.add('hidden');
+                studentsTableBody.innerHTML = filteredStudents.map((student, index) => {
+                    // Find the original index in the students array for edit/delete
+                    const originalIndex = students.findIndex(s => s.studentId === student.studentId);
+                    return `
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-white font-medium">
+                                            ${student.fullName.charAt(0).toUpperCase()}
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">${student.fullName}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.studentId}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    ${student.studentClass}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${student.gender === 'ប្រុស' ? 'bg-green-100 text-green-800' : 'bg-pink-100 text-pink-800'}">
+                                    ${student.gender}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(student.birthDate)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.phone || 'មិនមាន'}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="editStudent(${originalIndex})" 
+                                        class="text-indigo-600 hover:text-indigo-900 mr-4 inline-flex items-center px-3 py-1 rounded-md text-sm bg-indigo-100 hover:bg-indigo-200 transition-colors duration-200">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    កែប្រែ
+                                </button>
+                                <button onclick="deleteStudent(${originalIndex})" 
+                                        class="text-red-600 hover:text-red-900 inline-flex items-center px-3 py-1 rounded-md text-sm bg-red-100 hover:bg-red-200 transition-colors duration-200">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    លុប
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+            totalStudentsSpan.textContent = students.length;
+        }
+
+        // Filter students based on search and filter criteria
+        function getFilteredStudents() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const classFilterValue = classFilter.value;
+            const genderFilterValue = genderFilter.value;
+
+            return students.filter(student => {
+                const matchesSearch = student.fullName.toLowerCase().includes(searchTerm) || 
+                                    student.studentId.toLowerCase().includes(searchTerm);
+                const matchesClass = !classFilterValue || student.studentClass === classFilterValue;
+                const matchesGender = !genderFilterValue || student.gender === genderFilterValue;
+
+                return matchesSearch && matchesClass && matchesGender;
+            });
+        }
+
+        // Filter and display students
+        function filterAndDisplayStudents() {
+            displayStudents();
+        }
+
+        // Edit student
+        function editStudent(index) {
+            const student = students[index];
+            
+            document.getElementById('editIndex').value = index;
+            document.getElementById('editFullName').value = student.fullName;
+            document.getElementById('editStudentId').value = student.studentId;
+            document.getElementById('editStudentClass').value = student.studentClass;
+            document.getElementById('editGender').value = student.gender;
+            document.getElementById('editBirthDate').value = student.birthDate;
+            document.getElementById('editPhone').value = student.phone || '';
+            document.getElementById('editAddress').value = student.address || '';
+            
+            editModal.classList.remove('hidden');
+            editingIndex = index;
+        }
+
+        // Delete student
+        function deleteStudent(index) {
+            const student = students[index];
+            if (confirm(`តើអ្នកពិតជាចង់លុបសិស្ស "${student.fullName}" មែនទេ?\nAre you sure you want to delete student "${student.fullName}"?`)) {
+                students.splice(index, 1);
+                displayStudents();
+                showSuccessMessage('បានលុបសិស្សដោយជោគជ័យ!');
+            }
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            editModal.classList.add('hidden');
+            editingIndex = -1;
+            editForm.reset();
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return 'មិនមាន';
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return new Date(dateString).toLocaleDateString('km-KH', options);
+        }
+
+        // Show success message
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+            successDiv.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(successDiv);
+                }, 300);
+            }, 3000);
+        }
+
+        // Export to Excel with beautiful formatting
+        function exportToExcel() {
+            if (students.length === 0) {
+                alert('មិនមានទិន្នន័យសិស្សទេ!');
+                return;
+            }
+
+            // Create workbook
+            const workbook = XLSX.utils.book_new();
+            
+            // Prepare data with beautiful formatting
+            const excelData = [
+                // Title row
+                ['បញ្ជីសិស្ស - Students List', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', ''],
+                // Header row with styling
+                [
+                    'ល.រ', 
+                    'ឈ្មោះពេញ', 
+                    'លេខសម្គាល់', 
+                    'ថ្នាក់', 
+                    'ភេទ', 
+                    'ថ្ងៃកំណើត', 
+                    'លេខទូរស័ព្ទ',
+                    'អាសយដ្ឋាន'
+                ],
+                // Data rows
+                ...students.map((student, index) => [
+                    index + 1,
+                    student.fullName,
+                    student.studentId,
+                    student.studentClass,
+                    student.gender,
+                    formatDateForExcel(student.birthDate),
+                    student.phone || 'មិនមាន',
+                    student.address || 'មិនមាន'
+                ]),
+                // Summary row
+                ['', '', '', '', '', '', ''],
+                [`សរុបសិស្ស: ${students.length} នាក់`, '', '', '', '', '', '']
+            ];
+
+            // Create worksheet
+            const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+            // Apply styling through cell properties
+            const range = XLSX.utils.decode_range(worksheet['!ref']);
+            
+            // Style cells
+            for (let R = range.s.r; R <= range.e.r; R++) {
+                for (let C = range.s.c; C <= range.e.c; C++) {
+                    const cell_address = {c: C, r: R};
+                    const cell_ref = XLSX.utils.encode_cell(cell_address);
+                    
+                    if (!worksheet[cell_ref]) continue;
+                    
+                    // Title row styling (row 0)
+                    if (R === 0) {
+                        worksheet[cell_ref].s = {
+                            font: { bold: true, sz: 16, color: { rgb: "FFFFFF" } },
+                            fill: { fgColor: { rgb: "2E86AB" } },
+                            alignment: { horizontal: "center", vertical: "center" }
+                        };
+                    }
+                    // Header row styling (row 2)
+                    else if (R === 2) {
+                        worksheet[cell_ref].s = {
+                            font: { bold: true, sz: 12, color: { rgb: "FFFFFF" } },
+                            fill: { fgColor: { rgb: "4A90E2" } },
+                            alignment: { horizontal: "center", vertical: "center" },
+                            border: {
+                                top: { style: "thin", color: { rgb: "000000" } },
+                                left: { style: "thin", color: { rgb: "000000" } },
+                                bottom: { style: "thin", color: { rgb: "000000" } },
+                                right: { style: "thin", color: { rgb: "000000" } }
+                            }
+                        };
+                    }
+                    // Data rows styling
+                    else if (R >= 3 && R <= students.length + 2) {
+                        worksheet[cell_ref].s = {
+                            font: { sz: 11 },
+                            alignment: { horizontal: "left", vertical: "center" },
+                            border: {
+                                left: { style: "thin", color: { rgb: "DDDDDD" } },
+                                right: { style: "thin", color: { rgb: "DDDDDD" } },
+                                bottom: { style: "thin", color: { rgb: "DDDDDD" } }
+                            }
+                        };
+                        
+                        // Alternate row colors
+                        if (R % 2 === 1) {
+                            worksheet[cell_ref].s.fill = { fgColor: { rgb: "F8F9FA" } };
+                        } else {
+                            worksheet[cell_ref].s.fill = { fgColor: { rgb: "FFFFFF" } };
+                        }
+                        
+                        // Center alignment for serial number and gender
+                        if (C === 0 || C === 4) {
+                            worksheet[cell_ref].s.alignment = { horizontal: "center", vertical: "center" };
+                        }
+                    }
+                    // Summary row styling
+                    else if (R === students.length + 4) {
+                        worksheet[cell_ref].s = {
+                            font: { bold: true, sz: 12, color: { rgb: "FFFFFF" } },
+                            fill: { fgColor: { rgb: "27AE60" } },
+                            alignment: { horizontal: "center", vertical: "center" }
+                        };
+                    }
+                }
+            }
+
+            // Set column widths
+            worksheet['!cols'] = [
+                { wch: 8 },  // Serial number
+                { wch: 25 }, // Full name
+                { wch: 15 }, // Student ID
+                { wch: 15 }, // Class
+                { wch: 10 }, // Gender
+                { wch: 15 }, // Birth date
+                { wch: 15 }, // Phone
+                { wch: 30 }  // Address
+            ];
+
+            // Merge title cells
+            if (!worksheet['!merges']) worksheet['!merges'] = [];
+            worksheet['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } });
+            worksheet['!merges'].push({ s: { r: students.length + 4, c: 0 }, e: { r: students.length + 4, c: 7 } });
+
+            // Add worksheet to workbook
+            XLSX.utils.book_append_sheet(workbook, worksheet, "សិស្ស");
+
+            // Generate Excel file
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0];
+            XLSX.writeFile(workbook, `students_${dateString}.xlsx`);
+        }
+
+        // Format date for Excel
+        function formatDateForExcel(dateString) {
+            if (!dateString) return 'មិនមាន';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('km-KH');
+        }
+
+        // Close modal when clicking outside
+        editModal.addEventListener('click', function(e) {
+            if (e.target === editModal) {
+                closeEditModal();
             }
         });
+
+        // Initialize page
+        function initializePage() {
+            // Add some sample data for demonstration
+            const sampleStudents = [
+                {
+                    fullName: "សុខ ចន្ទ្រា",
+                    studentId: "ST001",
+                    studentClass: "ថ្នាក់ទី១០",
+                    gender: "ស្រី",
+                    birthDate: "2008-03-15",
+                    phone: "012345678",
+                    address: "ផ្ទះលេខ ១២៣, ផ្លូវ ១៥០, សង្កាត់បឹងកក់, ខណ្ឌទួលគោក, រាជធានីភ្នំពេញ",
+                    dateAdded: new Date().toISOString().split('T')[0]
+                },
+                {
+                    fullName: "លី ដារ៉ា",
+                    studentId: "ST002",
+                    studentClass: "ថ្នាក់ទី១០",
+                    gender: "ប្រុស",
+                    birthDate: "2008-07-22",
+                    phone: "098765432",
+                    address: "ភូមិព្រែកតាព្រីង, ឃុំព្រែកតាព្រីង, ស្រុកអង្គស្នួល, ខេត្តកំពត",
+                    dateAdded: new Date().toISOString().split('T')[0]
+                },
+                {
+                    fullName: "ចាន់ សុភា",
+                    studentId: "ST003",
+                    studentClass: "ថ្នាក់ទី៩",
+                    gender: "ស្រី",
+                    birthDate: "2009-01-10",
+                    phone: "077123456",
+                    address: "សង្កាត់ស្លាតែក, ក្រុងសៀមរាប, ខេត្តសៀមរាប",
+                    dateAdded: new Date().toISOString().split('T')[0]
+                }
+            ];
+
+            students.push(...sampleStudents);
+            displayStudents();
+        }
+
+        // Initialize the page
+        initializePage();
     </script>
+    <!-- Include SheetJS library for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
 </html>
